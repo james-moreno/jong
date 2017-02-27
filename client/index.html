@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body ng-controller="testController">
+        <button ng-click=actionTimer()>Start Timer</button>
+        <p ng-show="time">{{time}}</p>
+        <button ng-click="killTimer()">Kill Timer</button>
+        <script type="text/javascript" src="angular/angular.js"></script>
+        <script type="text/javascript" src="game.js"></script>
+    </body>
+</html>
