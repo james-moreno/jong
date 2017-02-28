@@ -4,11 +4,23 @@
         <meta charset="utf-8">
         <title></title>
     </head>
-    <body ng-controller="testController">
-        <button ng-click=actionTimer()>Start Timer</button>
-        <p ng-show="time">{{time}}</p>
-        <button ng-click="killTimer()">Kill Timer</button>
+    <body ng-controller="gameController">
+        <h3>JONG</h3>
+        <h4>Your ID: {{myId}}</h4>
+        <h5>Time: {{time}}</h5>
+        <h3 ng-head="started">Ready Players: {{readyPlayers}}</h3>
+        <div ng-hide="started">
+            <button ng-hide="player.ready" ng-click="ready()">Ready</button>
+            <button ng-hide="!player.ready" ng-click="unready()">Un-Ready</button>
+            <button ng-show="readyPlayers == 4" ng-click="startGame()">Start Game</button>
+        </div>
+        <div ng-repeat="tile in player.hand">
+            <div>{{tile.suit}}{{tile.value}}</div>
+        </div>
+        <script type ="text/javascript" src="socket.io/socket.io.js"></script>
         <script type="text/javascript" src="angular/angular.js"></script>
-        <script type="text/javascript" src="game.js"></script>
+        <script type="text/javascript" src="angular-socket-io/socket.js"></script>
+        <script src="angular-cookies/angular-cookies.js"></script>
+        <script type="text/javascript" src="app.js"></script>
     </body>
 </html>

@@ -5,7 +5,10 @@ function Player(name){
     this.name = name;
     this.hand = [];
     this.discards = [];
+    this.played = [];
+    this.position = undefined;
     this.turn = false;
+    this.ready = false;
 }
 
 Player.prototype.sortBy = function (key, minor) {

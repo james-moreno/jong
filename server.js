@@ -9,3 +9,5 @@ app.use(express.static(path.join(__dirname, './client')));
 var server = app.listen(8000, function() {
     console.log('listening on port 8000');
 });
+
+var io = require('./server/sockets.js')(server);
