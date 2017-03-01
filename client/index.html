@@ -6,14 +6,15 @@
         <link rel="stylesheet" href="/styles.css" media="screen" title="no title">
     </head>
     <body ng-controller="gameController">
-        <h3>JONG</h3>
-        <h4>Your ID: {{myId}}</h4>
-        <h5 ng-show="time">Time: {{time}}</h5>
-        <h3 ng-head="started">Ready Players: {{readyPlayers}}</h3>
+        <h1 id="jong" class="gameText">JONG</h1>
+        <p class="gameText">Your ID: {{myId}}</p>
+        <p class="gameText" ng-hide="started">Ready Players: {{readyPlayers}}</p>
+        <p class="gameText" ng-show="time">Time: {{time}}</p>
+        <p class="gameText" ng-show="player.isTurn">YOUR TURN</p>
         <div ng-hide="started">
-            <button ng-hide="player.ready" ng-click="ready()">Ready</button>
-            <button ng-hide="!player.ready" ng-click="unready()">Un-Ready</button>
-            <button ng-show="readyPlayers == 4" ng-click="startGame()">Start Game</button>
+            <button class="startButton" ng-hide="player.ready" ng-click="ready()">READY</button>
+            <button class="startButton" ng-hide="!player.ready" ng-click="unready()">UNREADY</button>
+            <button class="startButton" ng-show="readyPlayers == 4" ng-click="startGame()">START GAME</button>
         </div>
         <div class="hand" ng-repeat="tile in player.hand">
             <div class="tile" ng-click="discard(tile)">{{tile.suit}}{{tile.value}}</div>

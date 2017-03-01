@@ -48,7 +48,7 @@ function readyCheck(){
 }
 
 
-function turnChanger(){
+game.turnChanger = function(){
     if(!game.gameData.started){
         game.gameData.turn = 0;
         game.players[game.gameData.turn].isTurn = true;
@@ -58,7 +58,7 @@ function turnChanger(){
         game.gameData.turn = ((game.gameData.turn+1)%4);
         game.players[game.gameData.turn].isTurn = true;
     }
-}
+};
 
 function dealTiles(wall){
     var playerNum = 0;
@@ -87,33 +87,9 @@ game.startGame = function(timerEmit){
         game.wall = new Wall();
         game.wall.shuffle();
         dealTiles();
-        turnChanger();
+        game.turnChanger();
         game.gameData.started = true;
-        turnLoop(game.gameData.turn);
     }
-};
-
-//Game Turn Loop
-
-
-game.turnLoop = function(player){
-    game.gameData.time = 10;
-    game.turnTimer = setInterval(function() {
-        if(game.gameData.time === 0){
-            console.log('time up!');
-            clearInterval(game.turnTimer);
-            game.gameData.time = undefined;
-        }
-        else {
-            console.log(game.gameData.time);
-            game.gameData.time --;
-        }
-    }, 1000);
-};
-
-game.killTimer = function(){
-    clearInterval(game.turnTimer);
-    game.gameData.time = undefined;
 };
 
 // game.players.pOne = new Player('one');

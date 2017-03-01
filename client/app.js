@@ -35,6 +35,7 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.myId = $scope.player.name;
     });
     $scope.$on('socket:timerUpdate', function(event, time){
+        console.log($scope.player.isTurn);
         $scope.time = time;
     });
     $scope.ready = function(){

@@ -7,6 +7,14 @@ body {
     min-width: 1080px;
     background: #339966;
 }
+#jong {
+    font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+    font-size: 40px;
+    font-weight: 900;
+    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black
+}
 .tile {
     display: inline-block;
     width: 60px;
@@ -18,4 +26,19 @@ body {
 }
 .hand {
     display: inline-block;
+}
+.gameText {
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+.startButton {
+    min-width: 50px;
+    height: 20px;
+    font-weight: 600;
+    font-family: sans-serif;
+    padding-left: 10px;
+    padding-right: 10px;
 }

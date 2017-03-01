@@ -16,12 +16,17 @@ var webSocket = function(client){
 
     var turnLoop = {};
     turnLoop.timer = function(){
-        turnLoop.time = 10;
-        turnLoop.startTimer = setInterval(function() {
+        turnLoop.time = 5;
+        turnLoop.turnTimer = setInterval(function() {
             if(turnLoop.time === 0){
                 console.log('time up!');
-                clearInterval(turnLoop.startTimer);
-                turnLoop.time = 10;
+                turnLoop.time = undefined;
+                timerUpdate(turnLoop.time);
+                clearInterval(turnLoop.turnTimer);
+                game.turnChanger();
+                playerDataUpdate();
+                gameDataUpdate();
+                turnLoop.timer();
             }
             else {
                 timerUpdate(turnLoop.time);
@@ -32,7 +37,7 @@ var webSocket = function(client){
 
 
     function killTimer(){
-        clearInterval(turnLoop.startTimer);
+        clearInterval(turnLoop.turnTimer);
         turnLoop.time = undefined;
     }
 
