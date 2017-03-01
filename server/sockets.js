@@ -14,25 +14,26 @@ var webSocket = function(client){
         io.sockets.emit('timerUpdate', time);
     }
 
-    var actionTimer = {};
-    actionTimer.timer = function(){
-        actionTimer.time = 10;
-        actionTimer.startTimer = setInterval(function() {
-            if(actionTimer.time === 0){
+    var turnLoop = {};
+    turnLoop.timer = function(){
+        turnLoop.time = 10;
+        turnLoop.startTimer = setInterval(function() {
+            if(turnLoop.time === 0){
                 console.log('time up!');
-                clearInterval(actionTimer.timer);
-                actionTimer.time = 10;
+                clearInterval(turnLoop.startTimer);
+                turnLoop.time = 10;
             }
             else {
-                console.log(actionTimer.time);
-                actionTimer.time --;
+                timerUpdate(turnLoop.time);
+                turnLoop.time --;
             }
         }, 1000);
     };
 
+
     function killTimer(){
-        clearInterval(actionTimer.timer.startTimer);
-        actionTimer.time = 10;
+        clearInterval(turnLoop.startTimer);
+        turnLoop.time = undefined;
     }
 
 
@@ -54,6 +55,10 @@ var webSocket = function(client){
             game.startGame();
             playerDataUpdate();
             gameDataUpdate();
+            turnLoop.timer();
+        });
+        socket.on('discard', function(discardData){
+            killTimer();
         });
         socket.on('disconnect', function(){
             console.log('client disconnected');

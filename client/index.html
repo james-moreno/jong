@@ -8,7 +8,7 @@
     <body ng-controller="gameController">
         <h3>JONG</h3>
         <h4>Your ID: {{myId}}</h4>
-        <h5>Time: {{time}}</h5>
+        <h5 ng-show="time">Time: {{time}}</h5>
         <h3 ng-head="started">Ready Players: {{readyPlayers}}</h3>
         <div ng-hide="started">
             <button ng-hide="player.ready" ng-click="ready()">Ready</button>

@@ -20,7 +20,6 @@ game.addPlayer = function(socket){
         count++;
     }
     checkFull();
-    console.log(game.players);
 };
 game.removePlayer = function(socket){
     delete game.players[socket];
@@ -47,16 +46,7 @@ function readyCheck(){
     }
     return true;
 }
-game.startGame = function(timerEmit){
-    if(readyCheck() && !game.started){
-        game.wall = new Wall();
-        game.wall.shuffle();
-        dealTiles();
-        turnChanger();
-        game.gameData.started = true;
-        turnStart();
-    }
-};
+
 
 function turnChanger(){
     if(!game.gameData.started){
@@ -68,9 +58,6 @@ function turnChanger(){
         game.gameData.turn = ((game.gameData.turn+1)%4);
         game.players[game.gameData.turn].isTurn = true;
     }
-}
-function toggleTurnBool(position){
-
 }
 
 function dealTiles(wall){
@@ -95,19 +82,26 @@ function checkFull(){
     }
 }
 
+game.startGame = function(timerEmit){
+    if(readyCheck() && !game.started){
+        game.wall = new Wall();
+        game.wall.shuffle();
+        dealTiles();
+        turnChanger();
+        game.gameData.started = true;
+        turnLoop(game.gameData.turn);
+    }
+};
+
 //Game Turn Loop
-function turnStart(){
-    console.log('turns starting');
-}
 
 
-game.gameData.time = undefined;
-game.actionTimer = function(player){
+game.turnLoop = function(player){
     game.gameData.time = 10;
-    game.startTimer = setInterval(function() {
+    game.turnTimer = setInterval(function() {
         if(game.gameData.time === 0){
             console.log('time up!');
-            clearInterval(game.startTimer);
+            clearInterval(game.turnTimer);
             game.gameData.time = undefined;
         }
         else {
@@ -118,7 +112,7 @@ game.actionTimer = function(player){
 };
 
 game.killTimer = function(){
-    clearInterval(game.startTimer);
+    clearInterval(game.turnTimer);
     game.gameData.time = undefined;
 };
 
