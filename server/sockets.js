@@ -14,21 +14,44 @@ var webSocket = function(client){
         io.sockets.emit('timerUpdate', time);
     }
 
+    var actionTimer = {};
+    actionTimer.timer = function(){
+        actionTimer.time = 10;
+        actionTimer.startTimer = setInterval(function() {
+            if(actionTimer.time === 0){
+                console.log('time up!');
+                clearInterval(actionTimer.timer);
+                actionTimer.time = 10;
+            }
+            else {
+                console.log(actionTimer.time);
+                actionTimer.time --;
+            }
+        }, 1000);
+    };
+
+    function killTimer(){
+        clearInterval(actionTimer.timer.startTimer);
+        actionTimer.time = 10;
+    }
+
+
+
     var io = require('socket.io').listen(client);
     io.sockets.on('connection', function (socket) {
         game.addPlayer(socket.id);
         playerDataUpdate();
         gameDataUpdate();
-        socket.on('ready', function(){
-            game.readyUp(socket.id);
+        socket.on('ready', function(playerData){
+            game.readyUp(playerData.position);
             gameDataUpdate();
         });
-        socket.on('unready', function(){
-            game.unReady(socket.id);
+        socket.on('unready', function(playerData){
+            game.unReady(playerData.position);
             gameDataUpdate();
         });
         socket.on('startGame', function(){
-            game.startGame(timerUpdate(time));
+            game.startGame();
             playerDataUpdate();
             gameDataUpdate();
         });

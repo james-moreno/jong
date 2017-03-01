@@ -6,34 +6,36 @@ var Wall = require('./wall.js');
 
 game.players = {};
 game.gameData = {
-    started: false
+    started: false,
+    players: {}
 };
 game.full = false;
-var count = 1;
+var count = 0;
 
 //Game Joining and Starting Functions
 game.addPlayer = function(socket){
     if(!game.full){
-        game.players[socket] = new Player(socket);
-        game.players[socket].position = count;
+        game.players[count] = new Player(socket);
+        game.players[count].position = count;
         count++;
     }
     checkFull();
+    console.log(game.players);
 };
 game.removePlayer = function(socket){
     delete game.players[socket];
     count --;
 };
 
-game.readyUp = function(socket){
-    game.players[socket].ready = true;
-    game.gameData[socket] = {
+game.readyUp = function(player){
+    game.players[player].ready = true;
+    game.gameData.players[player] = {
         ready: true
     };
 };
-game.unReady = function(socket){
-    game.players[socket].ready = false;
-    game.gameData[socket] = {
+game.unReady = function(player){
+    game.players[player].ready = false;
+    game.gameData.players[player] = {
         ready: false
     };
 };
@@ -50,12 +52,29 @@ game.startGame = function(timerEmit){
         game.wall = new Wall();
         game.wall.shuffle();
         dealTiles();
+        turnChanger();
         game.gameData.started = true;
         turnStart();
     }
 };
+
+function turnChanger(){
+    if(!game.gameData.started){
+        game.gameData.turn = 0;
+        game.players[game.gameData.turn].isTurn = true;
+    }
+    else if(game.gameData.started){
+        game.players[game.gameData.turn].isTurn = false;
+        game.gameData.turn = ((game.gameData.turn+1)%4);
+        game.players[game.gameData.turn].isTurn = true;
+    }
+}
+function toggleTurnBool(position){
+
+}
+
 function dealTiles(wall){
-    var playerNum = 1;
+    var playerNum = 0;
     for(var idx = 0; idx < 4; idx++){
         for(var player in game.players){
             if(game.players[player].position == playerNum){
@@ -63,10 +82,10 @@ function dealTiles(wall){
                 playerNum++;
             }
         }
-        playerNum = 1;
+        playerNum = 0;
     }
-    for(var guy in game.players){
-        game.players[guy].sortHand();
+    for(var hand in game.players){
+        game.players[hand].sortHand();
     }
 }
 function checkFull(){
@@ -81,16 +100,18 @@ function turnStart(){
     console.log('turns starting');
 }
 
+
 game.gameData.time = undefined;
 game.actionTimer = function(player){
     game.gameData.time = 10;
     game.startTimer = setInterval(function() {
-        if(game.time === 0){
+        if(game.gameData.time === 0){
             console.log('time up!');
             clearInterval(game.startTimer);
-            game.time = undefined;
+            game.gameData.time = undefined;
         }
         else {
+            console.log(game.gameData.time);
             game.gameData.time --;
         }
     }, 1000);

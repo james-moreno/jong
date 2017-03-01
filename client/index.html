@@ -2,7 +2,8 @@
 <html ng-app="app">
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title>JONG</title>
+        <link rel="stylesheet" href="/styles.css" media="screen" title="no title">
     </head>
     <body ng-controller="gameController">
         <h3>JONG</h3>
@@ -14,8 +15,8 @@
             <button ng-hide="!player.ready" ng-click="unready()">Un-Ready</button>
             <button ng-show="readyPlayers == 4" ng-click="startGame()">Start Game</button>
         </div>
-        <div ng-repeat="tile in player.hand">
-            <div>{{tile.suit}}{{tile.value}}</div>
+        <div class="hand" ng-repeat="tile in player.hand">
+            <div class="tile" ng-click="discard(tile)">{{tile.suit}}{{tile.value}}</div>
         </div>
         <script type ="text/javascript" src="socket.io/socket.io.js"></script>
         <script type="text/javascript" src="angular/angular.js"></script>

@@ -1,0 +1,21 @@
+* {
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+body {
+    min-width: 1080px;
+    background: #339966;
+}
+.tile {
+    display: inline-block;
+    width: 60px;
+    height: 80px;
+    border-radius: 5px;
+    border: 1px solid black;
+    overflow: hidden;
+    background: white;
+}
+.hand {
+    display: inline-block;
+}

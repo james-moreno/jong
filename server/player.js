@@ -7,7 +7,7 @@ function Player(name){
     this.discards = [];
     this.played = [];
     this.position = undefined;
-    this.turn = false;
+    this.isTurn = false;
     this.ready = false;
 }
 
