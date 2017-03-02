@@ -7,6 +7,12 @@ body {
     min-width: 1080px;
     background: #339966;
 }
+#playArea {
+    background: orange;
+    width: 1200px;
+    height: 650px;
+    margin: auto;
+}
 #title {
     font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
     font-size: 40px;
@@ -14,6 +20,12 @@ body {
     -webkit-text-fill-color: white; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black
+}
+#playerDiscardContainer, #buttonBarContainer, #handContainer {
+    border-top: 1px solid white;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
 }
 .tile {
     width: 60px;
@@ -25,6 +37,9 @@ body {
 }
 .hand {
     display: inline-block;
+}
+.hand:last-child {
+    margin-left: 30px;
 }
 .gameText {
     color: white;
