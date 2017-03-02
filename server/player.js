@@ -38,18 +38,87 @@ Player.prototype.discard = function(tile){
             discard = this.hand.splice(idx, 1);
         }
     }
-    if(discard){
-        return(discard[0]);
-    }
-    else{
-        console.log('no tile with that suit/value');
-    }
+    this.discards.push(discard);
 };
+Player.prototype.autoDiscard = function(){
+    var tile = this.hand.pop();
+    this.discards.push(tile);
+};
+
 Player.prototype.draw = function(tile){
     this.hand.push(tile);
 };
+
 Player.prototype.drawDeal = function(tiles){
     for(var tile in tiles){
         this.hand.push(tiles[tile]);
     }
+};
+
+Player.prototype.checkEat = function(tile){
+    console.log('hit checkEat in Player class');
+    var eatData = {
+        isEat: false
+    };
+    var runs = [];
+    var low = this.lowEat(tile);
+    if(low){
+        runs.push(low);
+    }
+    var mid = this.midEat(tile);
+    if(mid){
+        runs.push(mid);
+    }
+    var high = this.highEat(tile);
+    if(high){
+        runs.push(high);
+    }
+    if(runs.length > 0){
+        eatData.isEat = true;
+        eatData.runs = runs;
+    }
+    return eatData;
+};
+
+Player.prototype.lowEat = function(tile){
+    var run = [];
+    for(var idx = 0 ; idx < this.hand.length; idx ++){
+        if(tile.value-1 == this.hand[idx].value && tile.suit == this.hand[idx].suit){
+            for(var i = idx; i > -1; i--){
+                if(tile.value-2 == this.hand[i].value && tile.suit == this.hand[i].suit){
+                    run.push(this.hand[i], tile, this.hand[idx]);
+                    return run;
+                }
+            }
+        }
+    }
+    return;
+};
+Player.prototype.midEat = function(tile){
+    var run = [];
+    for(var idx = 0 ; idx < this.hand.length; idx ++){
+        if(tile.value-1 == this.hand[idx].value && tile.suit == this.hand[idx].suit){
+            for(var i = idx; i < this.hand.length; i++){
+                if(tile.value+1 == this.hand[i].value && tile.suit == this.hand[i].suit){
+                    run.push(this.hand[idx], tile, this.hand[i]);
+                    return run;
+                }
+            }
+        }
+    }
+    return;
+};
+Player.prototype.highEat = function(tile){
+    var run = [];
+    for(var idx = 0 ; idx < this.hand.length; idx ++){
+        if(tile.value+1 == this.hand[idx].value && tile.suit == this.hand[idx].suit){
+            for(var i = idx; i < this.hand.length; i++){
+                if(tile.value+2 == this.hand[i].value && tile.suit == this.hand[i].suit){
+                    run.push(this.hand[idx], tile, this.hand[i]);
+                    return run;
+                }
+            }
+        }
+    }
+    return;
 };

@@ -38,15 +38,6 @@ game.unReady = function(player){
         ready: false
     };
 };
-function readyCheck(){
-    for(var player in game.players){
-        if(!game.players[player].ready){
-            return false;
-        }
-    }
-    return true;
-}
-
 
 game.turnChanger = function(){
     if(!game.gameData.started){
@@ -59,6 +50,16 @@ game.turnChanger = function(){
         game.players[game.gameData.turn].isTurn = true;
     }
 };
+
+function readyCheck(){
+    for(var player in game.players){
+        if(!game.players[player].ready){
+            return false;
+        }
+    }
+    return true;
+}
+
 
 function dealTiles(wall){
     var playerNum = 0;
@@ -91,6 +92,37 @@ game.startGame = function(timerEmit){
         game.gameData.started = true;
     }
 };
+
+game.drawTile = function(){
+    var tile = game.players[game.gameData.turn].draw(game.wall.draw());
+};
+
+game.discard = function(discardData){
+    var discardTile = discardData.tile;
+    game.players[discardData.player.position].discard(discardTile);
+    console.log('running and return discardChecks');
+    return discardChecks(discardTile);
+};
+game.autoDiscard = function(){
+    game.players[game.gameData.turn].autoDiscard();
+};
+
+// check discard functions, returns an object with boolean and player if true
+
+function discardChecks(tile){
+    console.log('hit discardChecks function');
+    var checkResults = {
+        kong: false,
+        pung: false,
+        eat: checkEat(tile)
+    };
+    return checkResults;
+}
+function checkEat(tile){
+    console.log('checking for eats');
+    var nextPlayer = (game.gameData.turn+1)%4;
+    return game.players[nextPlayer].checkEat(tile);
+}
 
 // game.players.pOne = new Player('one');
 // game.players.pTwo = new Player('two');

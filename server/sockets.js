@@ -13,20 +13,40 @@ var webSocket = function(client){
     function timerUpdate(time){
         io.sockets.emit('timerUpdate', time);
     }
+    function gamePlayerDataUpdate(){
+        playerDataUpdate();
+        gameDataUpdate();
+    }
 
+    function turnController(type, discardData){
+        if(type == 'draw'){
+            drawCheck = game.drawTile();
+                gamePlayerDataUpdate();
+                turnLoop.timer('turn');
+
+        }
+        else if(type == 'discard'){
+
+        }
+        else if(type == 'timeUpAction'){
+
+        }
+        else if(type == 'timeUpTurn'){
+            game.autoDiscard();
+            game.turnChanger();
+            turnController('draw', null);
+        }
+    }
     var turnLoop = {};
-    turnLoop.timer = function(){
+    turnLoop.timer = function(type){
         turnLoop.time = 5;
         turnLoop.turnTimer = setInterval(function() {
-            if(turnLoop.time === 0){
+            if(turnLoop.time === 0 && type == 'turn'){
                 console.log('time up!');
                 turnLoop.time = undefined;
                 timerUpdate(turnLoop.time);
                 clearInterval(turnLoop.turnTimer);
-                game.turnChanger();
-                playerDataUpdate();
-                gameDataUpdate();
-                turnLoop.timer();
+                turnController('timeUpTurn', null);
             }
             else {
                 timerUpdate(turnLoop.time);
@@ -34,7 +54,6 @@ var webSocket = function(client){
             }
         }, 1000);
     };
-
 
     function killTimer(){
         clearInterval(turnLoop.turnTimer);
@@ -58,12 +77,12 @@ var webSocket = function(client){
         });
         socket.on('startGame', function(){
             game.startGame();
-            playerDataUpdate();
-            gameDataUpdate();
-            turnLoop.timer();
+            turnController('draw', null);
         });
         socket.on('discard', function(discardData){
             killTimer();
+            var discard = game.discard(discardData);
+            turnController('discard', discard);
         });
         socket.on('disconnect', function(){
             console.log('client disconnected');

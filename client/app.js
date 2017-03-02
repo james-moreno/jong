@@ -58,11 +58,11 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
     $scope.discard = function(tile){
         if($scope.turn == $scope.player.position && $scope.player.isTurn){
             $scope.time = undefined;
-            disardData = {
+            var discardData = {
                 tile: tile,
                 player: $scope.player
             };
-            gameSocket.emit('discard', tile);
+            gameSocket.emit('discard', discardData);
             console.log('discarding: '+tile);
         }
         else {
