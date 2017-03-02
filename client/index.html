@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="/styles.css" media="screen" title="no title">
     </head>
     <body ng-controller="gameController">
-        <h1 id="jong" class="gameText">JONG</h1>
+        <h1 id="title" class="gameText">JONG</h1>
         <p class="gameText">Your ID: {{myId}}</p>
         <p class="gameText" ng-hide="started">Ready Players: {{readyPlayers}}</p>
         <p class="gameText" ng-show="time">Time: {{time}}</p>
@@ -16,7 +16,12 @@
             <button class="startButton" ng-hide="!player.ready" ng-click="unready()">UNREADY</button>
             <button class="startButton" ng-show="readyPlayers == 4" ng-click="startGame()">START GAME</button>
         </div>
-        <div class="hand" ng-repeat="tile in player.hand">
+        <div id="playerDiscard" class="hand" ng-repeat="tile in player.discards">
+            <div class="tile">{{tile.suit}}{{tile.value}}</div>
+        </div>
+        <div id="buttonBarContainer">
+        </div>
+        <div id="hand" class="hand" ng-repeat="tile in player.hand">
             <div class="tile" ng-click="discard(tile)">{{tile.suit}}{{tile.value}}</div>
         </div>
         <script type ="text/javascript" src="socket.io/socket.io.js"></script>

@@ -7,7 +7,7 @@ body {
     min-width: 1080px;
     background: #339966;
 }
-#jong {
+#title {
     font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
     font-size: 40px;
     font-weight: 900;
@@ -16,7 +16,6 @@ body {
     -webkit-text-stroke-color: black
 }
 .tile {
-    display: inline-block;
     width: 60px;
     height: 80px;
     border-radius: 5px;
