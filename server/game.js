@@ -82,6 +82,15 @@ function checkFull(){
         game.full = true;
     }
 }
+function checkDraw(tile, player){
+    console.log('checking draw');
+    var drawCheckResults = {
+        kong: game.players[player].drawCheckKong(tile),
+        listen: false,
+        win: false
+    };
+    return drawCheckResults;
+}
 
 game.startGame = function(timerEmit){
     if(readyCheck() && !game.started){
@@ -94,7 +103,10 @@ game.startGame = function(timerEmit){
 };
 
 game.drawTile = function(){
-    var tile = game.players[game.gameData.turn].draw(game.wall.draw());
+    var tile = game.wall.draw();
+    var player = game.gameData.turn;
+    game.players[player].draw(tile);
+    return checkDraw(tile, player);
 };
 
 game.discard = function(discardData){

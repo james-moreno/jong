@@ -20,10 +20,15 @@ var webSocket = function(client){
 
     function turnController(type, discardData){
         if(type == 'draw'){
-            drawCheck = game.drawTile();
+            var drawCheck = game.drawTile();
+            console.log(drawCheck+'*****drawCheck******');
+            if(drawCheck.kong){
+
+            }
+            else {
                 gamePlayerDataUpdate();
                 turnLoop.timer('turn');
-
+            }
         }
         else if(type == 'discard'){
 

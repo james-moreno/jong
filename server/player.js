@@ -55,6 +55,21 @@ Player.prototype.drawDeal = function(tiles){
     }
 };
 
+Player.prototype.drawCheckKong = function(tile){
+    var count = 0;
+    for(var idx = 0; idx < this.hand.length; idx++){
+        if(this.hand[idx].suit == tile.suit && this.hand[idx].value == tile.value){
+            count++;
+        }
+    }
+    if (count == 3) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+
 Player.prototype.checkEat = function(tile){
     console.log('hit checkEat in Player class');
     var eatData = {
