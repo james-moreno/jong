@@ -22,7 +22,6 @@ var webSocket = function(client){
     function turnController(type, discardData){
         if(type == 'draw'){
             var drawCheck = game.drawTile();
-            console.log(drawCheck+'*****drawCheck******');
             if(drawCheck.kong){
 
             }

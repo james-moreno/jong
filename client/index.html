@@ -14,6 +14,7 @@
             <button class="startButton" ng-hide="!player.ready" ng-click="unready()">UNREADY</button>
             <button class="startButton" ng-show="readyPlayers == 4" ng-click="startGame()">START GAME</button>
         </div>
+        <span id="yourTurnText" ng-show="player.isTurn">YOUR TURN</span>
         <div id="playArea">
             <div id="othersArea">
                 <div id ="leftPlayerHand">
@@ -21,32 +22,46 @@
                 </div>
                 <div id="middleContainer">
                     <div id="middleOtherContainer">
-                        <div class="sideBufferBox">
+                        <div id="sideBufferBoxLeft">
                         </div>
                         <div id="otherContainer">
                             <div id ="topPlayerHand">
 
                             </div>
                             <div id="discardsAndFlowers">
-                                <div id="playerDiscardContainer">
-                                    <div class="discards" ng-repeat="tile in player.discards">
-                                        <div class="discardTile">{{tile.suit}}{{tile.value}}</div>
+                                <div id="leftDiscards">
+
+                                </div>
+                                <div id="topFlowersDiscardsWall">
+                                    <div id="topFlowers">
+
                                     </div>
+                                    <div id="topDiscards">
+
+                                    </div>
+                                    <div id="wall"></div>
+                                    <div id="playerDiscards">
+                                        <div class="discards" ng-repeat="tile in player.discards">
+                                            <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="rightDiscards">
+
                                 </div>
                             </div>
                         </div>
 
-                        <div class="sideBufferBox">
+                        <div id="sideBufferBoxRight">
                         </div>
 
                     </div>
                     <div id="buttonBarContainer">
-                        <div id="timerBox">
-                            <span class="gameText" ng-show="time">Time: {{time}}</span>
-                            <span class="gameText" ng-show="player.isTurn">YOUR TURN</span>
-                        </div>
                         <div id="playerFlowerBox">
 
+                        </div>
+                        <div id="timerBox">
+                            <p id="countdownTimer" ng-show"time">{{time}}</p>
                         </div>
                         <div id="actionButtonBox">
 
@@ -60,7 +75,7 @@
             </div>
             <div id="playerHandContainer">
                 <div class="hand" ng-repeat="tile in player.hand">
-                    <div class="tile" ng-click="discard(tile)">{{tile.suit}}{{tile.value}}</div>
+                    <img class="handTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
                 </div>
             </div>
         </div>

@@ -10,6 +10,7 @@ app.factory('gameSocket', function (socketFactory){
 });
 
 app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function($scope, $cookies, gameSocket){
+    //values for testing CSS
 
     function readyPlayers(players){
         var count = 0;
@@ -25,6 +26,7 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.turn = gameData.turn;
         $scope.readyPlayers = readyPlayers(gameData.players);
         $scope.started = gameData.started;
+        //if statement for no discards on first player's turn
         $scope.rightPlayerDiscards = gameData.players[($scope.player.position+1)%4].discards;
         $scope.midPlayerDiscards = gameData.players[($scope.player.position+2)%4].discards;
         $scope.leftOneDiscards = gameData.players[($scope.player.position+3)%4].discards;
@@ -37,7 +39,6 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.myId = $scope.player.name;
     });
     $scope.$on('socket:timerUpdate', function(event, time){
-        console.log($scope.player.isTurn);
         $scope.time = time;
     });
     $scope.ready = function(){

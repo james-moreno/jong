@@ -37,15 +37,6 @@ div {
     display: inline-block;
     font-size: 0;
 }
-#playArea {
-    width: 1200px;
-    height: 650px;
-    margin: auto;
-}
-#othersArea {
-    height: 560px;
-    background: green;
-}
 #title {
     font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
     font-size: 40px;
@@ -54,40 +45,83 @@ div {
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black
 }
-#leftPlayerHand, #topPlayerHand, #rightPlayerHand {
-    background: yellow;
+#playArea {
+    width: 1200px;
+    height: 650px;
+    margin: auto;
 }
-#middleContainer {
-    width: 1060px;
-    height: 560px;
-}
-#middleOtherContainer {
-    width: 1060px;
-    height: 470px;
-    display: block;
-}
-#topPlayerHand {
-    width: 1000px;
-    height: 70px
-}
-#discardsAndFlowers{
-    background: red;
-    width: 1000px;
-    height: 400px;
-}
-#buttonBarContainer {
-    display: block;
-    width: 1060px;
-    height: 90px;
+#othersArea {
+    height: 580px;
+    background: green;
 }
 #playerHandContainer {
     width: 1200px;
-    height: 90px;
+    height: 70px;
     background: yellow;
 }
+#leftPlayerHand, #topPlayerHand, #rightPlayerHand {
+    background: yellow;
+    }
+#middleContainer {
+    width: 1090px;
+    height: 580px;
+}
+#middleOtherContainer {
+    width: 1090px;
+    height: 525px;
+    display: block;
+}
+#otherContainer {
+    display: inline-block;
+    width: 990px;
+    height: 525px;
+}
+#topPlayerHand {
+    width: 990px;
+    height: 55px
+}
+#leftDiscards {
+    float: left;
+}
+#rightDiscards {
+    float: right;
+}
+#leftDiscards, #rightDiscards {
+    background: #de9cfc;
+    width: 150px;
+    height: 470px;
+}
+#discardsAndFlowers {
+    width: 990px;
+    height: 470px;
+}
+#topFlowersDiscardsWall {
+    background: green;
+    width: 690px;
+    height: 470px;
+}
+#topFlowers {
+    width: 490px;
+    height: 40px;
+    background: pink;
+}
+#topDiscards, #playerDiscards {
+    background: #de9cfc;
+    width: 690px;
+    height: 100px;
+}
+#buttonBarContainer {
+    display: block;
+    width: 1090px;
+    height: 55px;
+}
+#wall {
+    height: 230px;
+    width: 690px;
+}
 #leftPlayerHand, #rightPlayerHand {
-    width: 70px;
-    height: 560px;
+    width: 55px;
+    height: 580px;
 }
 #leftPlayerHand {
     float: left;
@@ -100,43 +134,62 @@ div {
 }
 #timerBox {
     background: #42d7f4;
-    width: 90px;
-    height: 90px;
+    width: 55px;
+    height: 55px;
+    border-radius: 35px;
+}
+#countdownTimer {
+    width: 55px;
+    position: absolute;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: white;
+    font-size: 40px;
+    font-weight: 600;
+    font-family: sans-serif;
 }
 #playerFlowerBox {
     background: pink;
     width: 370px;
-    height: 90px;
+    height: 55px;
 }
 #actionButtonBox {
     background: #c9ebf2;
-    width: 600px;
-    height: 90px;
+    width: 620px;
+    height: 55px;
 }
-#otherContainer {
+#sideBufferBoxLeft, #sideBufferBoxRight {
     display: inline-block;
-    width: 1000px;
-    height: 470px;
+    background: green;
+    width: 50px;
+    height: 525px;
 }
-.sideBufferBox {
-    display: inline-block;
-    background: white;
-    width: 30px;
-    height: 470px;
+#sideBufferBoxLeft {
+    float: left;
 }
-.tile, .discardTile {
+#sideBufferBoxRight {
+    float: right;
+}
+#yourTurnText {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: sans-serif;
+}
+.handTile, .discardTile {
     border-radius: 5px;
-    border: 1px solid black;
     overflow: hidden;
-    background: white;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
 }
-.tile {
-    width: 60px;
-    height: 80px;
+.handTile {
+    width: 52.5px;
+    height: 70px;
 }
 .discardTile {
-    width: 45px;
-    height: 60px;
+    width: 37.5px;
+    height: 50px;
 }
 .hand, .discards {
     display: inline-block;
@@ -145,11 +198,12 @@ div {
     margin-left: 30px;
 }
 .gameText {
-    color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     font-size: 18px;
     font-weight: 600;
     font-family: sans-serif;
+    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black
 }
 .startButton {
     min-width: 50px;
