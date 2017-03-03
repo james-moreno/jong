@@ -1,3 +1,28 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
 * {
     text-align: center;
     padding: 0px;
@@ -6,12 +31,20 @@
 body {
     min-width: 1080px;
     background: #339966;
+    line-height: 1;
+}
+div {
+    display: inline-block;
+    font-size: 0;
 }
 #playArea {
-    background: orange;
     width: 1200px;
     height: 650px;
     margin: auto;
+}
+#othersArea {
+    height: 560px;
+    background: green;
 }
 #title {
     font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
@@ -21,21 +54,91 @@ body {
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black
 }
-#playerDiscardContainer, #buttonBarContainer, #handContainer {
-    border-top: 1px solid white;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    border-left: 1px solid black;
+#leftPlayerHand, #topPlayerHand, #rightPlayerHand {
+    background: yellow;
 }
-.tile {
-    width: 60px;
-    height: 80px;
+#middleContainer {
+    width: 1060px;
+    height: 560px;
+}
+#middleOtherContainer {
+    width: 1060px;
+    height: 470px;
+    display: block;
+}
+#topPlayerHand {
+    width: 1000px;
+    height: 70px
+}
+#discardsAndFlowers{
+    background: red;
+    width: 1000px;
+    height: 400px;
+}
+#buttonBarContainer {
+    display: block;
+    width: 1060px;
+    height: 90px;
+}
+#playerHandContainer {
+    width: 1200px;
+    height: 90px;
+    background: yellow;
+}
+#leftPlayerHand, #rightPlayerHand {
+    width: 70px;
+    height: 560px;
+}
+#leftPlayerHand {
+    float: left;
+}
+#rightPlayerHand {
+    float: right;
+}
+#readyBox {
+    display: block;
+}
+#timerBox {
+    background: #42d7f4;
+    width: 90px;
+    height: 90px;
+}
+#playerFlowerBox {
+    background: pink;
+    width: 370px;
+    height: 90px;
+}
+#actionButtonBox {
+    background: #c9ebf2;
+    width: 600px;
+    height: 90px;
+}
+#otherContainer {
+    display: inline-block;
+    width: 1000px;
+    height: 470px;
+}
+.sideBufferBox {
+    display: inline-block;
+    background: white;
+    width: 30px;
+    height: 470px;
+}
+.tile, .discardTile {
     border-radius: 5px;
     border: 1px solid black;
     overflow: hidden;
     background: white;
 }
-.hand {
+.tile {
+    width: 60px;
+    height: 80px;
+}
+.discardTile {
+    width: 45px;
+    height: 60px;
+}
+.hand, .discards {
     display: inline-block;
 }
 .hand:last-child {

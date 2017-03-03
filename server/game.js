@@ -17,6 +17,8 @@ game.addPlayer = function(socket){
     if(!game.full){
         game.players[count] = new Player(socket);
         game.players[count].position = count;
+        game.gameData.players[count] = {};
+        game.gameData.players[count].ready = false;
         count++;
     }
     checkFull();
@@ -119,6 +121,20 @@ game.autoDiscard = function(){
     game.players[game.gameData.turn].autoDiscard();
 };
 
+game.grabGameData = function(){
+    grabPlayersHands();
+};
+function grabPlayersHands(){
+    if(game.gameData.started){
+        for(var idx = 0; idx < 4; idx++){
+            game.gameData.players[idx].hand = game.players[idx].hand.length;
+            game.gameData.players[idx].discards = game.players[idx].discards;
+            game.gameData.players[idx].played = game.players[idx].played;
+            game.gameData.players[idx].name = game.players[idx].name;
+
+        }
+    }
+}
 // check discard functions, returns an object with boolean and player if true
 
 function discardChecks(tile){
@@ -135,6 +151,8 @@ function checkEat(tile){
     var nextPlayer = (game.gameData.turn+1)%4;
     return game.players[nextPlayer].checkEat(tile);
 }
+
+
 
 // game.players.pOne = new Player('one');
 // game.players.pTwo = new Player('two');

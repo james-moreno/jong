@@ -25,12 +25,14 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.turn = gameData.turn;
         $scope.readyPlayers = readyPlayers(gameData.players);
         $scope.started = gameData.started;
+        $scope.rightPlayerDiscards = gameData.players[($scope.player.position+1)%4].discards;
+        $scope.midPlayerDiscards = gameData.players[($scope.player.position+2)%4].discards;
+        $scope.leftOneDiscards = gameData.players[($scope.player.position+3)%4].discards;
     });
     $scope.$on('socket:assignID', function(event, id){
         $scope.myId = id;
     });
     $scope.$on('socket:playerDataUpdate', function(event, playerData){
-        console.log(playerData);
         $scope.player = playerData;
         $scope.myId = $scope.player.name;
     });

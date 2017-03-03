@@ -8,6 +8,7 @@ var webSocket = function(client){
         }
     }
     function gameDataUpdate(){
+        game.grabGameData();
         io.sockets.emit('gameDataUpdate', game.gameData);
     }
     function timerUpdate(time){
@@ -44,7 +45,7 @@ var webSocket = function(client){
     }
     var turnLoop = {};
     turnLoop.timer = function(type){
-        turnLoop.time = 5;
+        turnLoop.time = 10;
         turnLoop.turnTimer = setInterval(function() {
             if(turnLoop.time === 0 && type == 'turn'){
                 console.log('time up!');
