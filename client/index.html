@@ -14,7 +14,7 @@
             <button class="startButton" ng-hide="!player.ready" ng-click="unready()">UNREADY</button>
             <button class="startButton" ng-show="readyPlayers == 4" ng-click="startGame()">START GAME</button>
         </div>
-        <span id="yourTurnText" ng-show="player.isTurn">YOUR TURN</span>
+        <p id="yourTurnText" ng-show="player.isTurn">YOUR TURN</p>
         <div id="playArea">
             <div id="othersArea">
                 <div id ="leftPlayerHand">
@@ -30,14 +30,18 @@
                             </div>
                             <div id="discardsAndFlowers">
                                 <div id="leftDiscards">
-
+                                    <div class="discards" ng-repeat="tile in leftPlayerDiscards">
+                                        <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                                    </div>
                                 </div>
                                 <div id="topFlowersDiscardsWall">
                                     <div id="topFlowers">
 
                                     </div>
                                     <div id="topDiscards">
-
+                                        <div class="discards" ng-repeat="tile in topPlayerDiscards">
+                                            <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                                        </div>
                                     </div>
                                     <div id="wall"></div>
                                     <div id="playerDiscards">
@@ -47,7 +51,9 @@
                                     </div>
                                 </div>
                                 <div id="rightDiscards">
-
+                                    <div class="discards" ng-repeat="tile in rightPlayerDiscards">
+                                        <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>

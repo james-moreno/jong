@@ -10,7 +10,6 @@ app.factory('gameSocket', function (socketFactory){
 });
 
 app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function($scope, $cookies, gameSocket){
-    //values for testing CSS
 
     function readyPlayers(players){
         var count = 0;
@@ -28,8 +27,10 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.started = gameData.started;
         //if statement for no discards on first player's turn
         $scope.rightPlayerDiscards = gameData.players[($scope.player.position+1)%4].discards;
-        $scope.midPlayerDiscards = gameData.players[($scope.player.position+2)%4].discards;
-        $scope.leftOneDiscards = gameData.players[($scope.player.position+3)%4].discards;
+        $scope.topPlayerDiscards = gameData.players[($scope.player.position+2)%4].discards;
+        $scope.leftPlayerDiscards = gameData.players[($scope.player.position+3)%4].discards;
+
+
     });
     $scope.$on('socket:assignID', function(event, id){
         $scope.myId = id;

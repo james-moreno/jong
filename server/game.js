@@ -7,7 +7,12 @@ var Wall = require('./wall.js');
 game.players = {};
 game.gameData = {
     started: false,
-    players: {}
+    players: {
+        0: {},
+        1: {},
+        2: {},
+        3: {}
+    }
 };
 game.full = false;
 var count = 0;
@@ -97,7 +102,9 @@ function checkDraw(tile, player){
 game.startGame = function(timerEmit){
     if(readyCheck() && !game.started){
         game.wall = new Wall();
+        console.log(game.wall.wall.length);
         game.wall.shuffle();
+        console.log(game.wall.wall.length);
         dealTiles();
         game.turnChanger();
         game.gameData.started = true;

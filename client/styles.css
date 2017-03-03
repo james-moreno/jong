@@ -141,8 +141,8 @@ div {
 #countdownTimer {
     width: 55px;
     position: absolute;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 7.5px;
+    padding-bottom: 7.5px;
     color: white;
     font-size: 40px;
     font-weight: 600;
