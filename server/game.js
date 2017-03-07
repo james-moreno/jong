@@ -3,6 +3,7 @@ module.exports = game;
 
 var Player = require('./player.js');
 var Wall = require('./wall.js');
+var TestWall = require('./testWall.js');
 
 game.players = {};
 game.gameData = {
@@ -89,15 +90,35 @@ function checkFull(){
         game.full = true;
     }
 }
-function checkDraw(tile, player){
-    console.log('checking draw');
-    var drawCheckResults = {
-        kong: game.players[player].drawCheckKong(tile),
+game.clearAllActions = function(){
+    for (var i = 0; i < 4; i++) {
+        game.clearActions(i);
+    }
+};
+
+game.clearActions = function(player){
+    console.log('clearing actions of player'+player);
+    game.players[player].hasAction = false;
+    game.players[player].actions = {
+        kong: {
+            concealed: false,
+            meld: false
+        },
         listen: false,
-        win: false
+        win: false,
+        eat: false,
+        pung: false
     };
-    return drawCheckResults;
-}
+};
+
+game.actionsExist = function(){
+    for(var player in game.players){
+        if(game.players[player].hasAction){
+            return true;
+        }
+    }
+    return false;
+};
 
 game.startGame = function(timerEmit){
     if(readyCheck() && !game.started){
@@ -117,6 +138,12 @@ game.drawTile = function(){
     game.players[player].draw(tile);
     return checkDraw(tile, player);
 };
+
+function checkDraw(tile, player){
+    console.log('checking draw');
+    game.players[player].drawCheckConcealedKong(tile);
+    return game.players[player].hasAction;
+}
 
 game.discard = function(discardData){
     var discardTile = discardData.tile;
@@ -143,23 +170,36 @@ function grabPlayersHands(){
     }
 }
 // check discard functions, returns an object with boolean and player if true
+function playersHaveActions(){
+    for(var player in game.players){
+        if(game.players[player].hasAction){
+            return true;
+        }
+    }
+    return false;
+}
 
 function discardChecks(tile){
     console.log('hit discardChecks function');
-    var checkResults = {
-        kong: false,
-        pung: false,
-        eat: checkEat(tile)
-    };
+    checkEat(tile);
+    var checkResults = playersHaveActions();
     return checkResults;
 }
 function checkEat(tile){
     console.log('checking for eats');
     var nextPlayer = (game.gameData.turn+1)%4;
-    return game.players[nextPlayer].checkEat(tile);
+    game.players[nextPlayer].checkEat(tile);
 }
-
-
+function grabTile(player){
+    var tile = game.players[game.gameData.turn].discards.pop();
+    game.players[player].hand.push(tile);
+}
+game.pickup = function(type, player, tiles){
+    grabTile(player);
+    if(type == "eat"){
+        game.players[player].pickupEat(tiles);
+    }
+};
 
 // game.players.pOne = new Player('one');
 // game.players.pTwo = new Player('two');

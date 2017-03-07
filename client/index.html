@@ -70,7 +70,14 @@
                             <p id="countdownTimer" ng-show"time">{{time}}</p>
                         </div>
                         <div id="actionButtonBox">
-
+                            <div id="eatTiles" ng-show="eatPressed" ng-repeat="runs in eats" ng-click="eat(runs)">
+                                <div ng-repeat="tile in runs">
+                                    <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                                </div>
+                            </div>
+                            <div ng-click="action('kong')" ng-show="actions.kong.concealed || actions.kong.meld" class="actionButton" id="kongButton">Kong</div>
+                            <div ng-click="eatPress()" ng-show="actions.eat" class="actionButton" id="eatButton">Eat</div>
+                            <div ng-click="cancel()" ng-show="hasAction" class="actionButton" id="cancelButton">Cancel</div>
                         </div>
                     </div>
                 </div>
@@ -80,8 +87,13 @@
                 </div>
             </div>
             <div id="playerHandContainer">
+                <div id="playedTiles" ng-repeat="runs in player.played">
+                    <div ng-repeat="tile in runs">
+                        <img class="handTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                    </div>
+                </div>
                 <div class="hand" ng-repeat="tile in player.hand">
-                    <img class="handTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                    <img ng-click="!hasAction && discard(tile)" class="handTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
                 </div>
             </div>
         </div>

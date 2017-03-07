@@ -9,6 +9,17 @@ function Player(name){
     this.position = undefined;
     this.isTurn = false;
     this.ready = false;
+    this.hasAction = false;
+    this.actions = {
+        kong: {
+            concealed: false,
+            meld: false,
+        },
+        listen: false,
+        win: false,
+        eat: false,
+        pung: false
+    };
 }
 
 Player.prototype.sortBy = function (key, minor) {
@@ -36,9 +47,11 @@ Player.prototype.discard = function(tile){
     for(var idx = 0; idx<this.hand.length; idx++){
         if(this.hand[idx].suit == tile.suit && this.hand[idx].value == tile.value){
             discard = this.hand.splice(idx, 1);
+            break;
         }
     }
-    this.discards.push(discard);
+    this.discards.push(discard[0]);
+    this.sortHand();
 };
 Player.prototype.autoDiscard = function(){
     var tile = this.hand.pop();
@@ -55,26 +68,22 @@ Player.prototype.drawDeal = function(tiles){
     }
 };
 
-Player.prototype.drawCheckKong = function(tile){
+Player.prototype.drawCheckConcealedKong = function(tile){
     var count = 0;
     for(var idx = 0; idx < this.hand.length; idx++){
         if(this.hand[idx].suit == tile.suit && this.hand[idx].value == tile.value){
             count++;
+            if (count == 4) {
+                this.hasAction = true;
+                this.actions.kong.concealed = true;
+                return true;
+            }
         }
     }
-    if (count == 3) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return false;
 };
 
 Player.prototype.checkEat = function(tile){
-    console.log('hit checkEat in Player class');
-    var eatData = {
-        isEat: false
-    };
     var runs = [];
     var low = this.lowEat(tile);
     if(low){
@@ -89,10 +98,12 @@ Player.prototype.checkEat = function(tile){
         runs.push(high);
     }
     if(runs.length > 0){
-        eatData.isEat = true;
-        eatData.runs = runs;
+        this.hasAction = true;
+        this.actions.eat = {
+            isEat: true,
+            runs : runs
+        };
     }
-    return eatData;
 };
 
 Player.prototype.lowEat = function(tile){
@@ -136,4 +147,20 @@ Player.prototype.highEat = function(tile){
         }
     }
     return;
+};
+Player.prototype.pickupEat = function(run){
+    console.log(run);
+    var runToPlay = [];
+    for(var idx = 0; idx < run.length; idx++){
+        for(var i = 0; i < this.hand.length; i++){
+            if(this.hand[i].value == run[idx].value && this.hand[i].suit == run[idx].suit){
+                var tile = this.hand.splice(i, 1);
+                runToPlay.push(tile[0]);
+                break;
+            }
+        }
+    }
+    console.log(runToPlay);
+    this.played.push(runToPlay);
+    console.log(this.played);
 };

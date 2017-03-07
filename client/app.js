@@ -20,6 +20,7 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         }
         return count;
     }
+
     $scope.$on('socket:gameDataUpdate', function(event, gameData){
         console.log(gameData);
         $scope.turn = gameData.turn;
@@ -29,15 +30,24 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.rightPlayerDiscards = gameData.players[($scope.player.position+1)%4].discards;
         $scope.topPlayerDiscards = gameData.players[($scope.player.position+2)%4].discards;
         $scope.leftPlayerDiscards = gameData.players[($scope.player.position+3)%4].discards;
-
-
     });
     $scope.$on('socket:assignID', function(event, id){
         $scope.myId = id;
     });
     $scope.$on('socket:playerDataUpdate', function(event, playerData){
         $scope.player = playerData;
+        console.log(playerData);
         $scope.myId = $scope.player.name;
+        $scope.hasAction = playerData.hasAction;
+        $scope.actions = playerData.actions;
+        if($scope.actions.eat.isEat){
+            console.log('adding eat runs to scope');
+            $scope.eats = $scope.actions.eat.runs;
+            console.log($scope.eats);
+        }
+        else {
+            $scope.eatPressed = false;
+        }
     });
     $scope.$on('socket:timerUpdate', function(event, time){
         $scope.time = time;
@@ -73,4 +83,30 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
             console.log('not your turn!');
         }
     };
+    $scope.cancel = function(){
+        gameSocket.emit('cancel', $scope.player);
+    };
+    $scope.eatPress = function(){
+        $scope.eatPressed = true;
+        $scope.hasAction = false;
+    };
+    $scope.eat = function(tiles){
+        console.log('tiles clicked to eat');
+        var eatData = {
+            run: tiles,
+            player: $scope.player
+        };
+        $scope.eatPressed = false;
+        $scope.eats = undefined;
+        gameSocket.emit('eat', eatData);
+    };
+
+    //Tests for CSS
+
+    // $scope.testRuns = [[{suit: 'char', value: '1'},
+    // {suit: 'char', value: '2'},
+    // {suit: 'char', value: '3'}],
+    // [{suit: 'char', value: '3'},
+    // {suit: 'char', value: '4'},
+    // {suit: 'char', value: '5'}]];
 }]);

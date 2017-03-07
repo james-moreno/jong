@@ -132,11 +132,29 @@ div {
 #readyBox {
     display: block;
 }
+.actionButton {
+	vertical-align: bottom;
+    background: black;
+    width: 55px;
+    padding-top: 21.5px;
+    padding-bottom: 21.5px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: sans-serif;
+    color: white;
+    border-radius: 30px;
+}
+#cancelButton {
+}
+#kongButton {
+}
+#eatButton {
+}
 #timerBox {
     background: #42d7f4;
     width: 55px;
     height: 55px;
-    border-radius: 35px;
+    border-radius: 30px;
 }
 #countdownTimer {
     width: 55px;
@@ -174,6 +192,14 @@ div {
     font-size: 18px;
     font-weight: 600;
     font-family: sans-serif;
+}
+#eatTiles {
+	position: relative;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+#playedTiles {
+	margin-right: 30px;
 }
 .handTile, .discardTile {
     border-radius: 5px;
