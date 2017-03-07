@@ -161,7 +161,7 @@ game.grabGameData = function(){
 function grabPlayersHands(){
     if(game.gameData.started){
         for(var idx = 0; idx < 4; idx++){
-            game.gameData.players[idx].hand = game.players[idx].hand.length;
+            game.gameData.players[idx].hand = playerHiddenHand(game.players[idx].hand.length);
             game.gameData.players[idx].discards = game.players[idx].discards;
             game.gameData.players[idx].played = game.players[idx].played;
             game.gameData.players[idx].name = game.players[idx].name;
@@ -169,6 +169,14 @@ function grabPlayersHands(){
         }
     }
 }
+function playerHiddenHand(handLength){
+    var handArray = [];
+    for(var idx = 0; idx < handLength; idx++){
+        handArray.push({});
+    }
+    return handArray;
+}
+
 // check discard functions, returns an object with boolean and player if true
 function playersHaveActions(){
     for(var player in game.players){

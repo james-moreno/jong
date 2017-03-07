@@ -199,9 +199,9 @@ div {
 	margin-right: 5px;
 }
 #playedTiles {
-	margin-right: 30px;
+	margin-right: 15px;
 }
-.handTile, .discardTile {
+.handTile, .discardTile, .topHandTile, .sideHandTile {
     border-radius: 5px;
     overflow: hidden;
     border-top: 1px solid white;
@@ -216,6 +216,16 @@ div {
 .discardTile {
     width: 37.5px;
     height: 50px;
+}
+.topHandTile {
+	width: 30px;
+	height: 40px;
+	background: #00d68e;
+}
+.sideHandTile {
+	width: 40px;
+	height: 30px;
+	background: #00d68e;
 }
 .hand, .discards {
     display: inline-block;

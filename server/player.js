@@ -153,6 +153,8 @@ Player.prototype.pickupEat = function(run){
     var runToPlay = [];
     for(var idx = 0; idx < run.length; idx++){
         for(var i = 0; i < this.hand.length; i++){
+            console.log(i);
+            console.log(this.hand[i]);
             if(this.hand[i].value == run[idx].value && this.hand[i].suit == run[idx].suit){
                 var tile = this.hand.splice(i, 1);
                 runToPlay.push(tile[0]);

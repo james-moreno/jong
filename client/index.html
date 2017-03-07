@@ -18,7 +18,14 @@
         <div id="playArea">
             <div id="othersArea">
                 <div id ="leftPlayerHand">
-
+                    <div ng-repeat="runs in leftPlayerPlayed">
+                        <div ng-repeat="tile in runs">
+                            <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                        </div>
+                    </div>
+                    <div ng-repeat="tile in leftPlayerHand">
+                        <div class="sideHandTile"></div>
+                    </div>
                 </div>
                 <div id="middleContainer">
                     <div id="middleOtherContainer">
@@ -26,7 +33,14 @@
                         </div>
                         <div id="otherContainer">
                             <div id ="topPlayerHand">
-
+                                <div ng-repeat="tile in topPlayerHand">
+                                    <div class="topHandTile"></div>
+                                </div>
+                                <div ng-repeat="runs in topPlayerPlayed">
+                                    <div ng-repeat="tile in runs">
+                                        <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                                    </div>
+                                </div>
                             </div>
                             <div id="discardsAndFlowers">
                                 <div id="leftDiscards">
@@ -83,7 +97,14 @@
                 </div>
 
                 <div id ="rightPlayerHand">
-
+                    <div ng-repeat="tile in rightPlayerHand">
+                        <div class="sideHandTile"></div>
+                    </div>
+                    <div ng-repeat="runs in rightPlayerPlayed">
+                        <div ng-repeat="tile in runs">
+                            <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="playerHandContainer">

@@ -28,8 +28,14 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.started = gameData.started;
         //if statement for no discards on first player's turn
         $scope.rightPlayerDiscards = gameData.players[($scope.player.position+1)%4].discards;
+        $scope.rightPlayerPlayed = gameData.players[($scope.player.position+1)%4].played;
+        $scope.rightPlayerHand = gameData.players[($scope.player.position+1)%4].hand;
         $scope.topPlayerDiscards = gameData.players[($scope.player.position+2)%4].discards;
+        $scope.topPlayerPlayed = gameData.players[($scope.player.position+2)%4].played;
+        $scope.topPlayerHand = gameData.players[($scope.player.position+2)%4].hand;
         $scope.leftPlayerDiscards = gameData.players[($scope.player.position+3)%4].discards;
+        $scope.leftPlayerPlayed = gameData.players[($scope.player.position+3)%4].played;
+        $scope.leftPlayerHand = gameData.players[($scope.player.position+3)%4].hand;
     });
     $scope.$on('socket:assignID', function(event, id){
         $scope.myId = id;
