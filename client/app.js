@@ -108,12 +108,26 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         gameSocket.emit('eat', eatData);
     };
     $scope.pung = function(){
-        console.log('i want to pung the discard');
         var pungData = {
             player: $scope.player.position,
             tile: $scope.gameData.players[$scope.turn].discards.pop()
         };
+        console.log(pungData);
         gameSocket.emit('pung', pungData);
+    };
+    $scope.kong = function(type){
+        var kongData = {
+            player: $scope.player.position,
+            type: type
+        };
+        if(type == 'discard'){
+            kongData.tile = $scope.gameData.players[$scope.turn].discards.pop();
+        }
+        else {
+            kongData.tile = $scope.player.hand.pop();
+        }
+        console.log(kongData);
+        gameSocket.emit('kong', kongData);
     };
 
     //Tests for CSS

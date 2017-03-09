@@ -152,12 +152,9 @@ Player.prototype.highEat = function(tile){
     return;
 };
 Player.prototype.pickupEat = function(run){
-    console.log(run);
     var runToPlay = [];
     for(var idx = 0; idx < run.length; idx++){
         for(var i = 0; i < this.hand.length; i++){
-            console.log(i);
-            console.log(this.hand[i]);
             if(this.hand[i].value == run[idx].value && this.hand[i].suit == run[idx].suit){
                 var tile = this.hand.splice(i, 1);
                 runToPlay.push(tile[0]);
@@ -165,9 +162,7 @@ Player.prototype.pickupEat = function(run){
             }
         }
     }
-    console.log(runToPlay);
     this.played.push(runToPlay);
-    console.log(this.played);
 };
 
 // PUNG FUNCTIONS
@@ -200,4 +195,21 @@ Player.prototype.pickupPung = function(tile){
         }
     }
     this.played.push(pungToPlay);
+};
+
+//KONG FUNCITONS
+
+Player.prototype.concealedKong = function(){
+    var tile = this.hand[this.hand.length-1];
+    var kongToPlay = [];
+    for(var j = 0; j < 4; j++){
+        for(var idx = 0; idx < this.hand.length; idx ++){
+            if(tile.suit == this.hand[idx].suit && tile.value == this.hand[idx].value){
+                var pushTile = this.hand.splice(idx, 1);
+                kongToPlay.push(pushTile[0]);
+                break;
+            }
+        }
+    }
+    this.played.push(kongToPlay);
 };

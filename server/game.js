@@ -4,6 +4,7 @@ module.exports = game;
 var Player = require('./player.js');
 var Wall = require('./wall.js');
 var TestWall = require('./testWall.js');
+var KongWall = require('./kongWall.js');
 
 game.players = {};
 game.gameData = {
@@ -47,15 +48,22 @@ game.unReady = function(player){
     };
 };
 
-game.turnChanger = function(){
-    if(!game.gameData.started){
-        game.gameData.turn = 0;
-        game.players[game.gameData.turn].isTurn = true;
-    }
-    else if(game.gameData.started){
+game.turnChanger = function(player){
+    if(typeof(player) == 'number'){
         game.players[game.gameData.turn].isTurn = false;
-        game.gameData.turn = ((game.gameData.turn+1)%4);
-        game.players[game.gameData.turn].isTurn = true;
+        game.gameData.turn = player;
+        game.players[player].isTurn = true;
+    }
+    else {
+        if(!game.gameData.started){
+            game.gameData.turn = 0;
+            game.players[game.gameData.turn].isTurn = true;
+        }
+        else if(game.gameData.started){
+            game.players[game.gameData.turn].isTurn = false;
+            game.gameData.turn = ((game.gameData.turn+1)%4);
+            game.players[game.gameData.turn].isTurn = true;
+        }
     }
 };
 
@@ -84,6 +92,18 @@ function dealTiles(wall){
         game.players[hand].sortHand();
     }
 }
+
+// Tile drawing for test purposes
+function testDealTiles(wall){
+    for (var i = 0; i < 4; i++) {
+        game.players[i].drawDeal(game.wall.drawDeal());
+        game.players[i].drawDeal(game.wall.drawDeal());
+        game.players[i].drawDeal(game.wall.drawDeal());
+        game.players[i].drawDeal(game.wall.drawDeal());
+    }
+}
+// Test drawing for test purposes
+
 function checkFull(){
     var playerCount = Object.keys(game.players).length;
     if(playerCount == 4){
@@ -93,7 +113,6 @@ function checkFull(){
 game.clearAllActions = function(){
     console.log('clearing all players actions');
     for (var i = 0; i < 4; i++) {
-        console.log(i+'**********')
         game.clearActions(i);
     }
 };
@@ -124,11 +143,11 @@ game.actionsExist = function(){
 
 game.startGame = function(timerEmit){
     if(readyCheck() && !game.started){
-        game.wall = new Wall();
+        game.wall = new KongWall();
         console.log(game.wall.wall.length);
-        game.wall.shuffle();
+        // game.wall.shuffle();
         console.log(game.wall.wall.length);
-        dealTiles();
+        testDealTiles();
         game.turnChanger();
         game.gameData.started = true;
     }
@@ -220,12 +239,17 @@ function grabTile(player){
     game.players[player].hand.push(tile);
 }
 game.pickup = function(type, player, tiles){
-    grabTile(player);
+
     if(type == 'eat'){
+        grabTile(player);
         game.players[player].pickupEat(tiles);
     }
     else if(type == 'pung'){
+        grabTile(player);
         game.players[player].pickupPung(tiles);
+    }
+    else if(type == 'concealed'){
+        game.players[player].concealedKong();
     }
 };
 

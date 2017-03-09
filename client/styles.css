@@ -132,7 +132,7 @@ div {
 #readyBox {
     display: block;
 }
-.actionButton {
+.actionButton, .kongButton {
 	vertical-align: bottom;
     background: black;
     width: 55px;
@@ -144,9 +144,14 @@ div {
     color: white;
     border-radius: 30px;
 }
+.kongButton {
+	position: relative;
+}
 #cancelButton {
 }
-#kongButton {
+#kongBox {
+	width: 55px;
+	height: 55px;
 }
 #eatButton {
 }

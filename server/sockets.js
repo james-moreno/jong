@@ -80,9 +80,18 @@ var webSocket = function(client){
             game.clearAllActions();
             wantsToEat.wants = false;
             game.pickup('pung', data.player, data.tile);
-            game.turnChanger();
+            game.turnChanger(data.player);
             gamePlayerDataUpdate();
             turnLoop.timer('turn');
+        }
+        else if(type == 'kong'){
+            killTimer();
+            game.clearAllActions();
+            wantsToEat.wants = false;
+            if(data.type == 'concealed'){
+                game.pickup('concealed', data.player, data.tile);
+                turnController('draw', null);
+            }
         }
         else if(type == 'actionCancelled'){
             game.clearActions(data.position);
@@ -183,6 +192,9 @@ var webSocket = function(client){
         });
         socket.on('pung', function(pungData){
             turnController('pung', pungData);
+        });
+        socket.on('kong', function(kongData){
+            turnController('kong', kongData);
         });
         socket.on('disconnect', function(){
             console.log('client disconnected');
