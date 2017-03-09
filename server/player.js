@@ -84,6 +84,24 @@ Player.prototype.drawCheckConcealedKong = function(tile){
     return false;
 };
 
+Player.prototype.drawCheckMeldKong = function(tile){
+    var count = 0;
+    for(var idx = 0; idx < this.played.length; idx++){
+        for (var i = 0; i < this.played[idx].length; i++) {
+            if(this.played[idx][i].suit == tile.suit && this.played[idx][i].value == tile.value){
+                count++;
+                if (count == 3) {
+                    this.hasAction = true;
+                    this.actions.kong.meld = true;
+                    return true;
+                }
+            }
+        }
+    }
+    console.log(count);
+    return false;
+};
+
 //EAT FUNCTIONS
 
 Player.prototype.checkEat = function(tile){
@@ -212,4 +230,13 @@ Player.prototype.concealedKong = function(){
         }
     }
     this.played.push(kongToPlay);
+};
+
+Player.prototype.meldKong = function(){
+    var tile = this.hand.pop();
+    for (var i = 0; i < this.played.length; i++) {
+        if(this.played[i][0].suit == tile.suit && this.played[i][0].value == tile.value){
+            this.played[i].push(tile);
+        }
+    }
 };

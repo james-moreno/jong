@@ -92,6 +92,10 @@ var webSocket = function(client){
                 game.pickup('concealed', data.player, data.tile);
                 turnController('draw', null);
             }
+            else if(data.type == 'meld'){
+                game.pickup('meld', data.player, data.tile);
+                turnController('draw', null);
+            }
         }
         else if(type == 'actionCancelled'){
             game.clearActions(data.position);
@@ -108,7 +112,7 @@ var webSocket = function(client){
             then kill timer and move to next turn */
         }
         else if(type == 'drawActionTimeUp'){
-            game.clearActions(game.gamedata.turn);
+            game.clearActions(game.gameData.turn);
             gamePlayerDataUpdate();
             turnLoop.timer('turn');
         }

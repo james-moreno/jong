@@ -5,6 +5,8 @@ var Player = require('./player.js');
 var Wall = require('./wall.js');
 var TestWall = require('./testWall.js');
 var KongWall = require('./kongWall.js');
+var MeldKongWall = require('./meldKongWall.js');
+var Tile = require('./tile.js');
 
 game.players = {};
 game.gameData = {
@@ -96,6 +98,11 @@ function dealTiles(wall){
 // Tile drawing for test purposes
 function testDealTiles(wall){
     for (var i = 0; i < 4; i++) {
+        if(i === 0){
+            game.players[i].played.push(
+                [(new Tile('emiddle', null)),(new Tile('emiddle', null)),(new Tile('emiddle', null))]
+            );
+        }
         game.players[i].drawDeal(game.wall.drawDeal());
         game.players[i].drawDeal(game.wall.drawDeal());
         game.players[i].drawDeal(game.wall.drawDeal());
@@ -143,10 +150,8 @@ game.actionsExist = function(){
 
 game.startGame = function(timerEmit){
     if(readyCheck() && !game.started){
-        game.wall = new KongWall();
-        console.log(game.wall.wall.length);
+        game.wall = new MeldKongWall();
         // game.wall.shuffle();
-        console.log(game.wall.wall.length);
         testDealTiles();
         game.turnChanger();
         game.gameData.started = true;
@@ -163,6 +168,7 @@ game.drawTile = function(){
 function checkDraw(tile, player){
     console.log('checking draw');
     game.players[player].drawCheckConcealedKong(tile);
+    game.players[player].drawCheckMeldKong(tile);
     return game.players[player].hasAction;
 }
 
@@ -250,6 +256,9 @@ game.pickup = function(type, player, tiles){
     }
     else if(type == 'concealed'){
         game.players[player].concealedKong();
+    }
+    else if(type == 'meld'){
+        game.players[player].meldKong();
     }
 };
 
