@@ -91,7 +91,9 @@ function checkFull(){
     }
 }
 game.clearAllActions = function(){
+    console.log('clearing all players actions');
     for (var i = 0; i < 4; i++) {
+        console.log(i+'**********')
         game.clearActions(i);
     }
 };
@@ -219,8 +221,11 @@ function grabTile(player){
 }
 game.pickup = function(type, player, tiles){
     grabTile(player);
-    if(type == "eat"){
+    if(type == 'eat'){
         game.players[player].pickupEat(tiles);
+    }
+    else if(type == 'pung'){
+        game.players[player].pickupPung(tiles);
     }
 };
 

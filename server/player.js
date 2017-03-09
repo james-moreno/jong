@@ -187,3 +187,17 @@ Player.prototype.checkPung = function(tile){
         return false;
     }
 };
+
+Player.prototype.pickupPung = function(tile){
+    var pungToPlay = [];
+    for(var j = 0; j < 3; j++){
+        for(var idx = 0; idx < this.hand.length; idx ++){
+            if(tile.suit == this.hand[idx].suit && tile.value == this.hand[idx].value){
+                var pushTile = this.hand.splice(idx, 1);
+                pungToPlay.push(pushTile[0]);
+                break;
+            }
+        }
+    }
+    this.played.push(pungToPlay);
+};

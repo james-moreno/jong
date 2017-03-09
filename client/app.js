@@ -26,6 +26,7 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.turn = gameData.turn;
         $scope.readyPlayers = readyPlayers(gameData.players);
         $scope.started = gameData.started;
+        $scope.gameData = gameData;
         //if statement for no discards on first player's turn
         $scope.rightPlayerDiscards = gameData.players[($scope.player.position+1)%4].discards;
         $scope.rightPlayerPlayed = gameData.players[($scope.player.position+1)%4].played;
@@ -105,6 +106,14 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.eatPressed = false;
         $scope.eats = undefined;
         gameSocket.emit('eat', eatData);
+    };
+    $scope.pung = function(){
+        console.log('i want to pung the discard');
+        var pungData = {
+            player: $scope.player.position,
+            tile: $scope.gameData.players[$scope.turn].discards.pop()
+        };
+        gameSocket.emit('pung', pungData);
     };
 
     //Tests for CSS

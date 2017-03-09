@@ -1,7 +1,9 @@
 var webSocket = function(client){
 
     var game = require('./game.js');
-    var wantsToEat;
+    var wantsToEat = {
+        wants: false
+    };
 
     function playerDataUpdate(){
         for(var player in game.players){
@@ -65,6 +67,7 @@ var webSocket = function(client){
             else {
                 console.log('another action, saving eat action data');
                 wantsToEat = {
+                    wants: true,
                     eat: 'eat',
                     position: data.player.position,
                     run: data.run
@@ -72,8 +75,20 @@ var webSocket = function(client){
                 //Players eat data is saved until timer runs out
             }
         }
+        else if(type == 'pung'){
+            killTimer();
+            game.clearAllActions();
+            wantsToEat.wants = false;
+            game.pickup('pung', data.player, data.tile);
+            game.turnChanger();
+            gamePlayerDataUpdate();
+            turnLoop.timer('turn');
+        }
         else if(type == 'actionCancelled'){
             game.clearActions(data.position);
+            if(wantsToEat.wants){
+                game.pickup(wantsToEat.eat, wantsToEat.position, wantsToEat.run);
+            }
             if(!game.actionsExist()){
                 killTimer();
                 game.turnChanger();
@@ -112,7 +127,10 @@ var webSocket = function(client){
                     turnController('drawActionTimeUp', null);
                     console.log('action time up!');
                 }
-                if(type == 'discardAction'){
+                else if(type == 'discardAction'){
+                    if(wantsToEat.wants){
+                        game.pickup(wantsToEat.eat, wantsToEat.position, wantsToEat.run);
+                    }
                     turnController('discardActionTimeUp', null);
                     console.log('discardAction Timer is up!');
                 }
@@ -162,6 +180,9 @@ var webSocket = function(client){
         });
         socket.on('eat', function(eatData){
             turnController('eat', eatData);
+        });
+        socket.on('pung', function(pungData){
+            turnController('pung', pungData);
         });
         socket.on('disconnect', function(){
             console.log('client disconnected');

@@ -89,8 +89,10 @@
                                     <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
                                 </div>
                             </div>
-                            <div ng-click="action('kong')" ng-show="actions.kong.concealed || actions.kong.meld" class="actionButton" id="kongButton">Kong</div>
+                            
                             <div ng-click="eatPress()" ng-show="actions.eat" class="actionButton" id="eatButton">Eat</div>
+                            <div ng-click="pung()" ng-show="actions.pung" class="actionButton">Pung</div>
+                            <div ng-click="action('kong')" ng-show="actions.kong.concealed || actions.kong.meld" class="actionButton" id="kongButton">Kong</div>
                             <div ng-click="cancel()" ng-show="hasAction" class="actionButton" id="cancelButton">Cancel</div>
                         </div>
                     </div>
