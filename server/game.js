@@ -189,6 +189,7 @@ function playersHaveActions(){
 
 function discardChecks(tile){
     console.log('hit discardChecks function');
+    checkPungs(tile);
     checkEat(tile);
     var checkResults = playersHaveActions();
     return checkResults;
@@ -198,6 +199,20 @@ function checkEat(tile){
     var nextPlayer = (game.gameData.turn+1)%4;
     game.players[nextPlayer].checkEat(tile);
 }
+function checkPungs(tile){
+    console.log('checking for pung');
+    for (var player in game.players) {
+        if(player == game.gameData.turn){
+            console.log('skipping discarding player');
+            continue;
+        }
+        else if(game.players[player].checkPung(tile)){
+            console.log('there is a pung');
+            return player;
+        }
+    }
+}
+
 function grabTile(player){
     var tile = game.players[game.gameData.turn].discards.pop();
     game.players[player].hand.push(tile);

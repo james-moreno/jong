@@ -102,7 +102,7 @@ var webSocket = function(client){
     }
     var turnLoop = {};
     turnLoop.timer = function(type){
-        turnLoop.time = 5;
+        turnLoop.time = 10;
         turnLoop.turnTimer = setInterval(function() {
             if(turnLoop.time === 0){
                 turnLoop.time = undefined;

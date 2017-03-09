@@ -51,6 +51,7 @@ Player.prototype.discard = function(tile){
         }
     }
     this.discards.push(discard[0]);
+    this.isTurn = false;
     this.sortHand();
 };
 Player.prototype.autoDiscard = function(){
@@ -82,6 +83,8 @@ Player.prototype.drawCheckConcealedKong = function(tile){
     }
     return false;
 };
+
+//EAT FUNCTIONS
 
 Player.prototype.checkEat = function(tile){
     var runs = [];
@@ -165,4 +168,22 @@ Player.prototype.pickupEat = function(run){
     console.log(runToPlay);
     this.played.push(runToPlay);
     console.log(this.played);
+};
+
+// PUNG FUNCTIONS
+Player.prototype.checkPung = function(tile){
+    var count = 0;
+    for(var idx = 0; idx < this.hand.length; idx++){
+        if(this.hand[idx].suit == tile.suit && this.hand[idx].value == tile.value){
+            count++;
+        }
+    }
+    if (count >= 2) {
+        this.hasAction = true;
+        this.actions.pung = true;
+        return true;
+    }
+    else {
+        return false;
+    }
 };
