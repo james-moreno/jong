@@ -14,6 +14,7 @@ function Player(name){
         kong: {
             concealed: false,
             meld: false,
+            discard: false
         },
         listen: false,
         win: false,
@@ -98,7 +99,6 @@ Player.prototype.drawCheckMeldKong = function(tile){
             }
         }
     }
-    console.log(count);
     return false;
 };
 
@@ -184,16 +184,24 @@ Player.prototype.pickupEat = function(run){
 };
 
 // PUNG FUNCTIONS
-Player.prototype.checkPung = function(tile){
+Player.prototype.checkPungKong = function(tile){
+    console.log('check PungKong tile: '+tile);
     var count = 0;
     for(var idx = 0; idx < this.hand.length; idx++){
         if(this.hand[idx].suit == tile.suit && this.hand[idx].value == tile.value){
             count++;
         }
     }
-    if (count >= 2) {
+    console.log('count '+count);
+    if (count == 2) {
         this.hasAction = true;
         this.actions.pung = true;
+        return true;
+    }
+    else if(count == 3) {
+        this.hasAction = true;
+        this.actions.pung = true;
+        this.actions.kong.discard = true;
         return true;
     }
     else {
@@ -216,6 +224,20 @@ Player.prototype.pickupPung = function(tile){
 };
 
 //KONG FUNCITONS
+
+Player.prototype.pickupKong = function(tile){
+    var kongToPlay = [];
+    for(var j = 0; j < 4; j++){
+        for(var idx = 0; idx < this.hand.length; idx ++){
+            if(tile.suit == this.hand[idx].suit && tile.value == this.hand[idx].value){
+                var pushTile = this.hand.splice(idx, 1);
+                kongToPlay.push(pushTile[0]);
+                break;
+            }
+        }
+    }
+    this.played.push(kongToPlay);
+};
 
 Player.prototype.concealedKong = function(){
     var tile = this.hand[this.hand.length-1];

@@ -96,6 +96,11 @@ var webSocket = function(client){
                 game.pickup('meld', data.player, data.tile);
                 turnController('draw', null);
             }
+            else if(data.type == 'discard'){
+                game.pickup('discard', data.player, data.tile);
+                game.turnChanger(data.player);
+                turnController('draw', null);
+            }
         }
         else if(type == 'actionCancelled'){
             game.clearActions(data.position);

@@ -3,10 +3,13 @@ module.exports = game;
 
 var Player = require('./player.js');
 var Wall = require('./wall.js');
+
+// Items for Test purposes
 var TestWall = require('./testWall.js');
 var KongWall = require('./kongWall.js');
 var MeldKongWall = require('./meldKongWall.js');
 var Tile = require('./tile.js');
+var DiscardKongWall = require('./discardKongWall.js');
 
 game.players = {};
 game.gameData = {
@@ -98,11 +101,6 @@ function dealTiles(wall){
 // Tile drawing for test purposes
 function testDealTiles(wall){
     for (var i = 0; i < 4; i++) {
-        if(i === 0){
-            game.players[i].played.push(
-                [(new Tile('emiddle', null)),(new Tile('emiddle', null)),(new Tile('emiddle', null))]
-            );
-        }
         game.players[i].drawDeal(game.wall.drawDeal());
         game.players[i].drawDeal(game.wall.drawDeal());
         game.players[i].drawDeal(game.wall.drawDeal());
@@ -130,7 +128,8 @@ game.clearActions = function(player){
     game.players[player].actions = {
         kong: {
             concealed: false,
-            meld: false
+            meld: false,
+            discard: false
         },
         listen: false,
         win: false,
@@ -150,9 +149,9 @@ game.actionsExist = function(){
 
 game.startGame = function(timerEmit){
     if(readyCheck() && !game.started){
-        game.wall = new MeldKongWall();
-        // game.wall.shuffle();
-        testDealTiles();
+        game.wall = new Wall();
+        game.wall.shuffle();
+        dealTiles();
         game.turnChanger();
         game.gameData.started = true;
     }
@@ -216,7 +215,7 @@ function playersHaveActions(){
 
 function discardChecks(tile){
     console.log('hit discardChecks function');
-    checkPungs(tile);
+    checkPungsKongs(tile);
     checkEat(tile);
     var checkResults = playersHaveActions();
     return checkResults;
@@ -226,15 +225,16 @@ function checkEat(tile){
     var nextPlayer = (game.gameData.turn+1)%4;
     game.players[nextPlayer].checkEat(tile);
 }
-function checkPungs(tile){
-    console.log('checking for pung');
+function checkPungsKongs(tile){
+    console.log('checking for pung and kong');
+    console.log(game.gameData.turn+" this player's turn");
     for (var player in game.players) {
         if(player == game.gameData.turn){
             console.log('skipping discarding player');
             continue;
         }
-        else if(game.players[player].checkPung(tile)){
-            console.log('there is a pung');
+        else if(game.players[player].checkPungKong(tile)){
+            console.log('there is a kong and/or pung');
             return player;
         }
     }
@@ -245,7 +245,6 @@ function grabTile(player){
     game.players[player].hand.push(tile);
 }
 game.pickup = function(type, player, tiles){
-
     if(type == 'eat'){
         grabTile(player);
         game.players[player].pickupEat(tiles);
@@ -253,6 +252,10 @@ game.pickup = function(type, player, tiles){
     else if(type == 'pung'){
         grabTile(player);
         game.players[player].pickupPung(tiles);
+    }
+    else if(type == 'discard'){
+        grabTile(player);
+        game.players[player].pickupKong(tiles);
     }
     else if(type == 'concealed'){
         game.players[player].concealedKong();
