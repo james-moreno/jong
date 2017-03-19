@@ -6,15 +6,17 @@
         <link rel="stylesheet" href="/styles.css" media="screen" title="no title">
     </head>
     <body ng-controller="gameController">
-        <h1 id="title" class="gameText">JONG</h1>
-        <p class="gameText">Your ID: {{myId}}</p>
-        <p class="gameText" ng-hide="started">Ready Players: {{readyPlayers}}</p>
-        <div id="readyBox" ng-hide="started">
-            <button class="startButton" ng-hide="player.ready" ng-click="ready()">READY</button>
-            <button class="startButton" ng-hide="!player.ready" ng-click="unready()">UNREADY</button>
-            <button class="startButton" ng-show="readyPlayers == 4" ng-click="startGame()">START GAME</button>
+        <div id="headContainer">
+            <h1 id="title" class="gameText">JONG</h1>
+            <p class="gameText">Your ID: {{myId}}</p>
+            <p class="gameText" ng-hide="started">Ready Players: {{readyPlayers}}</p>
+            <div id="readyBox" ng-hide="started">
+                <button class="startButton" ng-hide="player.ready" ng-click="ready()">READY</button>
+                <button class="startButton" ng-hide="!player.ready" ng-click="unready()">UNREADY</button>
+                <button class="startButton" ng-show="readyPlayers == 4" ng-click="startGame()">START GAME</button>
+            </div>
+            <p id="yourTurnText" ng-show="player.isTurn">YOUR TURN</p>
         </div>
-        <p id="yourTurnText" ng-show="player.isTurn">YOUR TURN</p>
         <div id="playArea">
             <div id="othersArea">
                 <div id ="leftPlayerHand">

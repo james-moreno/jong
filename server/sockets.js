@@ -175,8 +175,7 @@ var webSocket = function(client){
     var io = require('socket.io').listen(client);
     io.sockets.on('connection', function (socket) {
         game.addPlayer(socket.id);
-        playerDataUpdate();
-        gameDataUpdate();
+        gamePlayerDataUpdate();
         socket.on('ready', function(playerData){
             game.readyUp(playerData.position);
             gameDataUpdate();
