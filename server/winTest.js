@@ -56,15 +56,20 @@ Player.prototype.winCheck = function(tile){
     for (var i = 0; i < this.hand.length; i++) {
         total += this.hand[i].value;
     }
+    total+=tile.value;
+    console.log(total);
     total = (total%3);
     if(total === 0){
+        console.log(0);
         return removePairCheckWin(tile, [3, 6, 9], this);
     }
     else if(total == 1){
-        return removePairCheckWin(tile, [1, 4, 7], this);
+        console.log(1);
+        return removePairCheckWin(tile, [2, 5, 8], this);
     }
     else if(total == 2){
-        return removePairCheckWin(tile, [2, 5, 8], this);
+        console.log(2);
+        return removePairCheckWin(tile, [1, 4, 7], this);
     }
     return false;
 };
@@ -77,7 +82,6 @@ function removePairCheckWin(tile, testNums, player){
             var tempHand = player.hand.slice();
             tempHand.push(tile);
             player.sortHand(tempHand);
-            // console.log(tempHand);
             if(tempHand[j+1] && tempHand[j].value == testNum && tempHand[j+1].value == tempHand[j].value && tempHand[j+1].suit == tempHand[j].suit){
                 tempHand.splice(j, 2);
                 if(onlySetsAndRunsRemaining(tempHand)){
@@ -113,7 +117,7 @@ function onlySetsAndRunsRemaining(hand){
                 break;
             }
         }
-
+        console.log(hand);
         if(j === 0 || k === 0){
             return false;
         }
@@ -122,27 +126,17 @@ function onlySetsAndRunsRemaining(hand){
 }
 
 
-var testWinTile = new Tile('bamboo', 3);
+var testWinTile = new Tile('bamboo', 5);
 
 var testPlayer = new Player();
 
 
-
-testPlayer.hand.push(new Tile('aspot', 1));
-testPlayer.hand.push(new Tile('aspot', 1));
-testPlayer.hand.push(new Tile('aspot', 2));
-testPlayer.hand.push(new Tile('aspot', 2));
-testPlayer.hand.push(new Tile('aspot', 3));
-testPlayer.hand.push(new Tile('aspot', 3));
-testPlayer.hand.push(new Tile('aspot', 7));
+testPlayer.hand.push(new Tile('bamboo', 6));
+testPlayer.hand.push(new Tile('bamboo', 7));
+testPlayer.hand.push(new Tile('char', 9));
+testPlayer.hand.push(new Tile('char', 9));
 testPlayer.hand.push(new Tile('aspot', 8));
-testPlayer.hand.push(new Tile('aspot', 9));
-testPlayer.hand.push(new Tile('bamboo', 1));
-testPlayer.hand.push(new Tile('bamboo', 1));
-testPlayer.hand.push(new Tile('bamboo', 1));
-testPlayer.hand.push(new Tile('bamboo', 2));
-testPlayer.hand.push(new Tile('bamboo', 2));
-testPlayer.hand.push(new Tile('bamboo', 2));
-testPlayer.hand.push(new Tile('bamboo', 3));
+testPlayer.hand.push(new Tile('aspot', 8));
+testPlayer.hand.push(new Tile('aspot', 8));
 
 console.log(testPlayer.winCheck(testWinTile));

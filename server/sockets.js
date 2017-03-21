@@ -4,6 +4,12 @@ var webSocket = function(client){
     var wantsToEat = {
         wants: false
     };
+    var wantsToPung = {
+        wants: false
+    };
+    var wantsToKong = {
+        wants: false
+    };
 
     function playerDataUpdate(){
         for(var player in game.players){
@@ -55,8 +61,8 @@ var webSocket = function(client){
             */
         }
         else if(type == 'eat'){
-            game.clearActions(data.player.position);
-            if(!game.actionsExist()){
+            game.clearActions(data.player.position, type);
+            if(!game.otherActionsExist()){
                 console.log('no other actions, eating tile');
                 killTimer();
                 game.pickup('eat', data.player.position, data.run);
@@ -76,38 +82,80 @@ var webSocket = function(client){
             }
         }
         else if(type == 'pung'){
-            killTimer();
-            game.clearAllActions();
-            wantsToEat.wants = false;
-            game.pickup('pung', data.player, data.tile);
-            game.turnChanger(data.player);
-            gamePlayerDataUpdate();
-            turnLoop.timer('turn');
-        }
-        else if(type == 'kong'){
-            killTimer();
-            game.clearAllActions();
-            wantsToEat.wants = false;
-            if(data.type == 'concealed'){
-                game.pickup('concealed', data.player, data.tile);
-                turnController('draw', null);
+            game.clearActions(data.player, type);
+            if(!game.otherActionsExist()){
+                console.log('no other actions, punging tile');
+                killTimer();
+                wantsToEat.wants = false;
+                game.pickup('pung', data.player, data.tile);
+                game.turnChanger(data.player);
+                gamePlayerDataUpdate();
+                turnLoop.timer('turn');
             }
-            else if(data.type == 'meld'){
-                game.pickup('meld', data.player, data.tile);
-                turnController('draw', null);
+            else {
+                console.log('another action, saving pung action data');
+                wantsToPung = {
+                    wants: true,
+                    pung: 'pung',
+                    position: data.player,
+                    tile: data.tile
+                };
+            }
+        }
+
+        else if(type == 'kong'){
+            if(data.type == 'meld' || data.type =='concealed'){
+                killTimer();
+                game.clearAllActions();
+                wantsToEat.wants = false;
+                if(data.type == 'concealed'){
+                    game.pickup('concealed', data.player, data.tile);
+                    turnController('draw', null);
+                }
+                else if(data.type == 'meld'){
+                    game.pickup('meld', data.player, data.tile);
+                    turnController('draw', null);
+                }
             }
             else if(data.type == 'discard'){
-                game.pickup('discard', data.player, data.tile);
-                game.turnChanger(data.player);
-                turnController('draw', null);
+                game.clearActions(data.player, type);
+                if(!game.otherActionsExist()){
+                    game.pickup('discard', data.player, data.tile);
+                    game.turnChanger(data.player);
+                    turnController('draw', null);
+                }
+                else {
+                    console.log('another action, saving pung action data');
+                    wantsToKong = {
+                        wants: true,
+                        kong: data.type,
+                        position: data.player,
+                        tile: data.tile
+                    };
+                }
+
             }
+        }
+        else if (type == 'win'){
+            killTimer();
+            game.clearAllActions();
+            var winner = game.players[winData.player].name;
+            io.sockets.emit('winner', winner);
         }
         else if(type == 'actionCancelled'){
             game.clearActions(data.position);
-            if(wantsToEat.wants){
+            if(wantsToKong.wants){
+                game.pickup(wantsToKong.kong, wantsToKong.player, wantsToKong.tile);
+                game.turnChanger(data.player);
+                turnController('draw', null);
+            }
+            else if(wantsToPung.wants){
+                game.pickup(wantsToPung.pung, wantsToPung.position, wantsToPung.tile);
+            }
+            else if(wantsToEat.wants){
                 game.pickup(wantsToEat.eat, wantsToEat.position, wantsToEat.run);
             }
-            if(!game.actionsExist()){
+            if(!game.otherActionsExist()){
                 killTimer();
                 game.turnChanger();
                 turnController('draw', null);
@@ -146,7 +194,15 @@ var webSocket = function(client){
                     console.log('action time up!');
                 }
                 else if(type == 'discardAction'){
-                    if(wantsToEat.wants){
+                    if(wantsToKong.wants){
+                        game.pickup(wantsToKong.kong, wantsToKong.player, wantsToKong.tile);
+                        game.turnChanger(data.player);
+                        turnController('draw', null);
+                    }
+                    else if(wantsToPung.wants){
+                        game.pickup(wantsToPung.pung, wantsToPung.position, wantsToPung.tile);
+                    }
+                    else if(wantsToEat.wants){
                         game.pickup(wantsToEat.eat, wantsToEat.position, wantsToEat.run);
                     }
                     turnController('discardActionTimeUp', null);
@@ -203,6 +259,9 @@ var webSocket = function(client){
         });
         socket.on('kong', function(kongData){
             turnController('kong', kongData);
+        });
+        socket.on('win', function(winData){
+            turnController('win', winData);
         });
         socket.on('disconnect', function(){
             console.log('client disconnected');

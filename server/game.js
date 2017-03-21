@@ -118,12 +118,12 @@ function checkFull(){
 game.clearAllActions = function(){
     console.log('clearing all players actions');
     for (var i = 0; i < 4; i++) {
-        game.clearActions(i);
+        game.clearActions(i, null);
     }
 };
 
-game.clearActions = function(player){
-    console.log('clearing actions of player'+player);
+game.clearActions = function(player, type){
+    console.log('clearing actions of '+type+' and below');
     game.players[player].hasAction = false;
     game.players[player].actions = {
         kong: {
@@ -136,9 +136,16 @@ game.clearActions = function(player){
         eat: false,
         pung: false
     };
+    if(type == 'pung' || type == 'kong'){
+        for(var guy in game.players){
+            if(game.players[guy].eat){
+                clearActions(guy, null);
+            }
+        }
+    }
 };
 
-game.actionsExist = function(){
+game.otherActionsExist = function(){
     for(var player in game.players){
         if(game.players[player].hasAction){
             return true;
@@ -168,6 +175,7 @@ function checkDraw(tile, player){
     console.log('checking draw');
     game.players[player].drawCheckConcealedKong(tile);
     game.players[player].drawCheckMeldKong(tile);
+    game.players[player].winCheck(tile);
     return game.players[player].hasAction;
 }
 
@@ -215,8 +223,15 @@ function playersHaveActions(){
 
 function discardChecks(tile){
     console.log('hit discardChecks function');
-    checkPungsKongs(tile);
-    checkEat(tile);
+    if(checkPungsKongs(tile)){
+        console.log('There is a Pung or Kong');
+    }
+    if(checkEat(tile)){
+        console.log('There is an Eat');
+    }
+    if(checkWin(tile)){
+        console.log('There is a Win');
+    }
     var checkResults = playersHaveActions();
     return checkResults;
 }
@@ -235,6 +250,19 @@ function checkPungsKongs(tile){
         }
         else if(game.players[player].checkPungKong(tile)){
             console.log('there is a kong and/or pung');
+            return player;
+        }
+    }
+}
+function checkWin(tile){
+    console.log('checking for win');
+    for(var player in game.players){
+        if(player == game.gameData.turn){
+            console.log('skipping discarding player');
+            continue;
+        }
+        else if(game.players[player].winCheck(tile)){
+            console.log('there is a win');
             return player;
         }
     }
@@ -264,85 +292,3 @@ game.pickup = function(type, player, tiles){
         game.players[player].meldKong();
     }
 };
-
-// game.players.pOne = new Player('one');
-// game.players.pTwo = new Player('two');
-// game.players.pThree = new Player('three');
-// game.players.pFour = new Player('four');
-
-
-
-
-// function turnDecider(turnData, player){
-//     if(turnData.type == 'draw'){
-//         var draw = drawTile();
-//         //run action/timer based on draw
-//         if(checkWin(draw)){
-//             action('win', player);
-//         }
-//         else if(checkListen(draw)){
-//             action('listen', player);
-//         }
-//         else if(checkKong(draw)){
-//             action('kong', player);
-//         }
-//         else if(checkFlower(draw)){
-//             action('flower', player);
-//         }
-//         else {
-//             action('normal', player);
-//         }
-//     }
-//     else if(turnData.type == 'kong'){
-//         action('kong', player);
-//     }
-//     else if(turnData.type == 'pickup'){
-//         action('pickup', player);
-//     }
-// }
-//
-// function action(type, player){
-//     if(type === 'kong'){
-//         actionTimer();
-//         if(discard == chosen){
-//             clearInterval(actionTimer);
-//             discard(discard);
-//         }
-//     }
-//     else if(type == 'pickup'){
-//         actionTimer();
-//         if(discard == chosen){
-//             clearInterval(actionTimer);
-//             discard(discard);
-//         }
-//     }
-// }
-//
-// function discard(tile, player){
-//     var possibleActions = {};
-//     checkKong(tile, player){
-//         /*checks other players for kong*/
-//         if(kong){
-//             possibleActions.kong = true;
-//         }
-//     }
-//     checkPung(tile, player){
-//         /*checks other players for pung*/
-//         if(pung){
-//             possibleActions.pung = true;
-//         }
-//     }
-//     checkEat(tile, player){
-//         /*checks next player for eat*/
-//         if(eat){
-//             possibleActions.eat = true;
-//         }
-//     }
-//     if(possibleActions.kong || possibleActions.pung || possibleActions.eat){
-//         actionTimer('discard', possibleActions);
-//     }
-//     else {
-//         nextTurn();
-//         turnDecider('draw', nextPlayer);
-//     }
-// }

@@ -5,7 +5,7 @@ app.factory('gameSocket', function (socketFactory){
     jongSocket.forward('playerDataUpdate');
     jongSocket.forward('gameDataUpdate');
     jongSocket.forward('timerUpdate');
-    jongSocket.forward('assignID');
+    jongSocket.forward('winner');
     return jongSocket;
 });
 
@@ -38,9 +38,6 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.leftPlayerPlayed = gameData.players[($scope.player.position+3)%4].played;
         $scope.leftPlayerHand = gameData.players[($scope.player.position+3)%4].hand;
     });
-    $scope.$on('socket:assignID', function(event, id){
-        $scope.myId = id;
-    });
     $scope.$on('socket:playerDataUpdate', function(event, playerData){
         $scope.player = playerData;
         console.log(playerData);
@@ -58,6 +55,9 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
     });
     $scope.$on('socket:timerUpdate', function(event, time){
         $scope.time = time;
+    });
+    $scope.$on('winner', function(event, winner){
+        $scope.winner = winner;
     });
     $scope.ready = function(){
         gameSocket.emit('ready', $scope.player);
@@ -128,6 +128,18 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         }
         console.log(kongData);
         gameSocket.emit('kong', kongData);
+    };
+    $scope.win = function(){
+        var winData = {
+            player: $scope.player.position,
+        };
+        if($scope.player.position == $scope.turn){
+            winData.tile = $scope.player.hand.pop();
+        }
+        else {
+            winData.tile = $scope.gameData.players[$scope.turn].discards.pop();
+        }
+        gameSocket.emit('win', winData);
     };
 
     //Tests for CSS

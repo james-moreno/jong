@@ -39,7 +39,6 @@ div {
 }
 #headContainer {
 	height: 100px;
-
 }
 #title {
     font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
@@ -48,6 +47,19 @@ div {
     -webkit-text-fill-color: white; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black;
+}
+#winnerBox {
+	width: 100%;
+	height: 50%;
+	left: 0;
+	top: 25%;
+	background: black;
+	position: absolute;
+}
+#winnerText {
+	margin-top: 10%;
+	font-size: 70px;
+	color: white;
 }
 #playArea {
     width: 1202px;

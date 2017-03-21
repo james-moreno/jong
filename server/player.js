@@ -23,6 +23,15 @@ function Player(name){
     };
 }
 
+Player.prototype.returnIsEat = function(){
+    if(this.actions.eat === true){
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+
 Player.prototype.sortBy = function (key, minor) {
 return function (o, p) {
     var a, b;
@@ -185,14 +194,12 @@ Player.prototype.pickupEat = function(run){
 
 // PUNG FUNCTIONS
 Player.prototype.checkPungKong = function(tile){
-    console.log('check PungKong tile: '+tile);
     var count = 0;
     for(var idx = 0; idx < this.hand.length; idx++){
         if(this.hand[idx].suit == tile.suit && this.hand[idx].value == tile.value){
             count++;
         }
     }
-    console.log('count '+count);
     if (count == 2) {
         this.hasAction = true;
         this.actions.pung = true;
@@ -262,3 +269,86 @@ Player.prototype.meldKong = function(){
         }
     }
 };
+
+Player.prototype.winCheck = function(tile){
+    var total = 0;
+    for (var i = 0; i < this.hand.length; i++) {
+        total += this.hand[i].value;
+    }
+    total+=tile.value;
+    total = (total%3);
+    if(total === 0){
+        if(removePairCheckWin(tile, [3, 6, 9], this)){
+            this.hasAction = true;
+            this.actions.win = true;
+            return true;
+        }
+    }
+    else if(total == 1){
+        if(removePairCheckWin(tile, [2, 5, 8], this)){
+            this.hasAction = true;
+            this.actions.win = true;
+            return true;
+        }
+    }
+    else if(total == 2){
+        if(removePairCheckWin(tile, [1, 4, 7], this)){
+            this.hasAction = true;
+            this.actions.win = true;
+            return true;
+        }
+    }
+    return false;
+};
+
+function removePairCheckWin(tile, testNums, player){
+    //remove pair, then check for triplets
+    for (var i = 0; i < testNums.length; i++) {
+        var testNum = testNums[i];
+        for (var j = 0; j < player.hand.length; j++) {
+            var tempHand = player.hand.slice();
+            tempHand.push(tile);
+            player.sortHand(tempHand);
+            // console.log(tempHand);
+            if(tempHand[j+1] && tempHand[j].value == testNum && tempHand[j+1].value == tempHand[j].value && tempHand[j+1].suit == tempHand[j].suit){
+                tempHand.splice(j, 2);
+                if(onlySetsAndRunsRemaining(tempHand)){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function onlySetsAndRunsRemaining(hand){
+    while(hand.length !== 0){
+        var i = j = k = 0;
+        if(hand[i].value == hand[i+1].value && hand[i].suit == hand[i+1].suit && hand[i].value == hand[i+2].value && hand[i].suit == hand[i+2].suit){
+            hand.splice(0, 3);
+            continue;
+        }
+        for (var h = i; h < hand.length; h++){
+            if (hand[h].value == hand[i].value+1 && hand[h].suit == hand[i].suit) {
+                j = h;
+            }
+
+            if (hand[h].value == hand[i].value+2 && hand[h].suit == hand[i].suit) {
+                k = h;
+            }
+
+            if (j !== 0 && k !== 0) {
+                hand[i] = hand[j] = hand[k] = undefined;
+                hand = hand.filter(function(item){
+                    return item !== undefined;
+                });
+                break;
+            }
+        }
+
+        if(j === 0 || k === 0){
+            return false;
+        }
+    }
+    return true;
+}

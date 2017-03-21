@@ -6,6 +6,9 @@
         <link rel="stylesheet" href="/styles.css" media="screen" title="no title">
     </head>
     <body ng-controller="gameController">
+        <div ng-show="winner" id='winnerBox'>
+            <h1 id="winnerText">The winner is: {{winner}}</h1>
+        </div>
         <div id="headContainer">
             <h1 id="title" class="gameText">JONG</h1>
             <p class="gameText">Your ID: {{myId}}</p>
@@ -99,6 +102,7 @@
                                 <div ng-click="kong('meld')" ng-show="actions.kong.meld" class="kongButton">Kong</div>
                                 <div ng-click="kong('discard')" ng-show="actions.kong.discard" class="kongButton">Kong</div>
                             </div>
+                            <div ng-click="win()" ng-show="actions.win" class="actionButton">Win</div>
                             <div ng-click="cancel()" ng-show="hasAction" class="actionButton" id="cancelButton">Cancel</div>
                         </div>
                     </div>

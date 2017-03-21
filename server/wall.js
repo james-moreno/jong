@@ -10,13 +10,13 @@ function Wall() {
             this.wall[this.wall.length] = new Tile('bamboo', i);
             this.wall[this.wall.length] = new Tile('char', i);
         }
-        this.wall[this.wall.length] = new Tile("dnorth", null);
-        this.wall[this.wall.length] = new Tile("deast", null);
-        this.wall[this.wall.length] = new Tile("dsouth", null);
-        this.wall[this.wall.length] = new Tile("dwest", null);
-        this.wall[this.wall.length] = new Tile("emiddle", null);
-        this.wall[this.wall.length] = new Tile("eprosperity", null);
-        this.wall[this.wall.length] = new Tile("ewhite", null);
+        this.wall[this.wall.length] = new Tile("dnorth", 1);
+        this.wall[this.wall.length] = new Tile("deast", 1);
+        this.wall[this.wall.length] = new Tile("dsouth", 1);
+        this.wall[this.wall.length] = new Tile("dwest", 1);
+        this.wall[this.wall.length] = new Tile("emiddle", 1);
+        this.wall[this.wall.length] = new Tile("eprosperity", 1);
+        this.wall[this.wall.length] = new Tile("ewhite", 1);
         // this.wall[this.wall.length] = new Tile("flower", j);
         // this.wall[this.wall.length] = new Tile("season", j);
     }
