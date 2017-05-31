@@ -139,7 +139,9 @@ var webSocket = function(client){
         else if (type == 'win'){
             killTimer();
             game.clearAllActions();
-            var winner = game.players[winData].name;
+            console.log(data);
+            console.log(game.players[data.player].name);
+            var winner = game.players[data.player].name;
             io.sockets.emit('winner', winner);
         }
         else if(type == 'actionCancelled'){

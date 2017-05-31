@@ -50,7 +50,6 @@ return function (o, p) {
 };
 Player.prototype.sortHand = function(hand){
     if(hand){
-        console.log('check win sort');
         hand.sort(this.sortBy('suit', this.sortBy('value')));
     }
     else {

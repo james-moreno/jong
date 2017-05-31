@@ -123,7 +123,6 @@ game.clearAllActions = function(){
 };
 
 game.clearActions = function(player, type){
-    console.log('clearing actions of '+type+' and below');
     game.players[player].hasAction = false;
     game.players[player].actions = {
         kong: {
@@ -137,9 +136,10 @@ game.clearActions = function(player, type){
         pung: false
     };
     if(type == 'pung' || type == 'kong'){
+        console.log('clearing actions of '+type+' and below');
         for(var guy in game.players){
-            if(game.players[guy].eat){
-                clearActions(guy, null);
+            if(game.players[guy].actions.eat){
+                game.clearActions(guy, null);
             }
         }
     }

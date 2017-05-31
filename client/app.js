@@ -56,7 +56,8 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
     $scope.$on('socket:timerUpdate', function(event, time){
         $scope.time = time;
     });
-    $scope.$on('winner', function(event, winner){
+    $scope.$on('socket:winner', function(event, winner){
+        console.log(winner+" is the winner!")
         $scope.winner = winner;
     });
     $scope.ready = function(){
@@ -131,7 +132,7 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
     };
     $scope.win = function(){
         var winData = {
-            player: $scope.player.position,
+            player: $scope.player.position
         };
         if($scope.player.position == $scope.turn){
             winData.tile = $scope.player.hand.pop();
