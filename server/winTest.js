@@ -126,17 +126,23 @@ function onlySetsAndRunsRemaining(hand){
 }
 
 
-var testWinTile = new Tile('bamboo', 5);
+var testWinTile = new Tile('bamboo', 4);
 
 var testPlayer = new Player();
 
 
+testPlayer.hand.push(new Tile('bamboo', 4));
+testPlayer.hand.push(new Tile('bamboo', 4));
+testPlayer.hand.push(new Tile('ewhite', 1));
+testPlayer.hand.push(new Tile('ewhite', 1));
 testPlayer.hand.push(new Tile('bamboo', 6));
 testPlayer.hand.push(new Tile('bamboo', 7));
-testPlayer.hand.push(new Tile('char', 9));
-testPlayer.hand.push(new Tile('char', 9));
+testPlayer.hand.push(new Tile('bamboo', 8));
+testPlayer.hand.push(new Tile('aspot', 7));
 testPlayer.hand.push(new Tile('aspot', 8));
-testPlayer.hand.push(new Tile('aspot', 8));
-testPlayer.hand.push(new Tile('aspot', 8));
+testPlayer.hand.push(new Tile('aspot', 9));
+testPlayer.hand.push(new Tile('aspot', 3));
+testPlayer.hand.push(new Tile('aspot', 4));
+testPlayer.hand.push(new Tile('aspot', 5));
 
 console.log(testPlayer.winCheck(testWinTile));
