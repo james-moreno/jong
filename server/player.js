@@ -48,8 +48,15 @@ return function (o, p) {
         }
     };
 };
-Player.prototype.sortHand = function(){
-    this.hand.sort(this.sortBy('suit', this.sortBy('value')));
+Player.prototype.sortHand = function(hand){
+    if(hand){
+        console.log('check win sort');
+        hand.sort(this.sortBy('suit', this.sortBy('value')));
+    }
+    else {
+        console.log('sorting player hand');
+        this.hand.sort(this.sortBy('suit', this.sortBy('value')));
+    }
 };
 
 Player.prototype.discard = function(tile){
@@ -67,6 +74,7 @@ Player.prototype.discard = function(tile){
 Player.prototype.autoDiscard = function(){
     var tile = this.hand.pop();
     this.discards.push(tile);
+    this.sortHand();
 };
 
 Player.prototype.draw = function(tile){
