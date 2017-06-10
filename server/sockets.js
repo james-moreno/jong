@@ -13,7 +13,7 @@ var webSocket = function(client){
 
     function playerDataUpdate(){
         for(var player in game.players){
-            io.to(game.players[player].name).emit('playerDataUpdate', game.players[player]);
+            io.to(game.players[player].id).emit('playerDataUpdate', game.players[player]);
         }
     }
     function gameDataUpdate(){
@@ -30,8 +30,8 @@ var webSocket = function(client){
     function drawAction(actionData){
         console.log('drawAction function');
         var currentPlayer = game.gameData.turn;
-        console.log(game.players[currentPlayer].name);
-        io.to(game.players[currentPlayer].name).emit('drawAction', actionData);
+        console.log(game.players[currentPlayer].username);
+        io.to(game.players[currentPlayer].id).emit('drawAction', actionData);
     }
     function turnController(type, data){
         if(type == 'draw'){
@@ -140,8 +140,8 @@ var webSocket = function(client){
             killTimer();
             game.clearAllActions();
             console.log(data);
-            console.log(game.players[data.player].name);
-            var winner = game.players[data.player].name;
+            console.log(game.players[data.player].username);
+            var winner = game.players[data.player].username;
             io.sockets.emit('winner', winner);
         }
         else if(type == 'actionCancelled'){
@@ -232,8 +232,12 @@ var webSocket = function(client){
 
     var io = require('socket.io').listen(client);
     io.sockets.on('connection', function (socket) {
-        game.addPlayer(socket.id);
-        gamePlayerDataUpdate();
+        socket.on('login', function(user) {
+          console.log(socket.id);
+          console.log(user.username);
+          game.addPlayer(socket.id, user.username);
+          gamePlayerDataUpdate();
+        });
         socket.on('ready', function(playerData){
             game.readyUp(playerData.position);
             gameDataUpdate();

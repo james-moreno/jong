@@ -21,8 +21,18 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         return count;
     }
 
+    $scope.login = function(user){
+      console.log(user);
+      if(!user.username) {
+        user.username = "blank";
+      }
+      gameSocket.emit('login', user);
+      $scope.loggedIn = true;
+    };
+
     $scope.$on('socket:gameDataUpdate', function(event, gameData){
         console.log(gameData);
+        $scope.winner = null;
         $scope.turn = gameData.turn;
         $scope.readyPlayers = readyPlayers(gameData.players);
         $scope.started = gameData.started;
@@ -41,7 +51,7 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
     $scope.$on('socket:playerDataUpdate', function(event, playerData){
         $scope.player = playerData;
         console.log(playerData);
-        $scope.myId = $scope.player.name;
+        $scope.username = $scope.player.username;
         $scope.hasAction = playerData.hasAction;
         $scope.actions = playerData.actions;
         if($scope.actions.eat.isEat){
@@ -57,12 +67,14 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.time = time;
     });
     $scope.$on('socket:winner', function(event, winner){
-        console.log(winner+" is the winner!")
+        console.log(winner+" is the winner!");
         $scope.winner = winner;
     });
     $scope.ready = function(){
+      if($scope.loggedIn){
         gameSocket.emit('ready', $scope.player);
         $scope.player.ready = true;
+      }
     };
     $scope.unready = function(){
         gameSocket.emit('unready', $scope.player);
@@ -141,6 +153,9 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
             winData.tile = $scope.gameData.players[$scope.turn].discards.pop();
         }
         gameSocket.emit('win', winData);
+    };
+    $scope.restart = function(){
+      gameSocket.emit('startGame');
     };
 
     //Tests for CSS

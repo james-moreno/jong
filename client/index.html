@@ -4,21 +4,36 @@
         <meta charset="utf-8">
         <title>JONG</title>
         <link rel="stylesheet" href="/styles.css" media="screen" title="no title">
+        <link href="https://fonts.googleapis.com/css?family=Oswald:700" rel="stylesheet">
     </head>
     <body ng-controller="gameController">
+        <div ng-hide="loggedIn" id="logInBackground">
+          <div id="logInBox">
+            <h1 class="gameText">JONG.io</h1>
+            <form id="loginForm" ng-submit="login(user)">
+              <input type="text" ng-model="user.username" maxlength="16">
+              <button id="logInButton" type="button" ng-click="login(user)">PLAY</button>
+            </form>
+            <p class="gameText"> Welcome to Mahjong! Put in a username to play. If you don't know how then check out this <a href="http://mahjong.wikidot.com/basic-rules">beginner's guide.</a></p>
+          </div>
+        </div>
         <div ng-show="winner" id='winnerBox'>
-            <h1 id="winnerText">The winner is: {{winner}}</h1>
+            <h1 id="winnerText">{{winner}} is the winner!</h1>
+            <button ng-click="restart()">Play Again</button>
         </div>
         <div id="headContainer">
-            <h1 id="title" class="gameText">JONG</h1>
-            <p class="gameText">Your ID: {{myId}}</p>
-            <p class="gameText" ng-hide="started">Ready Players: {{readyPlayers}}</p>
-            <div id="readyBox" ng-hide="started">
+          <div id="headBox">
+            <h1 id="title" class="gameText">JONG.io</h1>
+            <div id="nameBox">
+              <p class="gameText">{{username}}</p>
+              <p class="gameText" ng-hide="started">READY PLAYERS: {{readyPlayers}}</p>
+              <div id="readyBox" ng-hide="started">
                 <button class="startButton" ng-hide="player.ready" ng-click="ready()">READY</button>
                 <button class="startButton" ng-hide="!player.ready" ng-click="unready()">UNREADY</button>
                 <button class="startButton" ng-show="readyPlayers == 4" ng-click="startGame()">START GAME</button>
+              </div>
             </div>
-            <p id="yourTurnText" ng-show="player.isTurn">YOUR TURN</p>
+          </div>
         </div>
         <div id="playArea">
             <div id="othersArea">
@@ -62,7 +77,9 @@
                                             <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
                                         </div>
                                     </div>
-                                    <div id="wall"></div>
+                                    <div id="wall">
+                                      <p id="yourTurnText" ng-show="player.isTurn">YOUR TURN!</p>
+                                    </div>
                                     <div id="playerDiscards">
                                         <div class="discards" ng-repeat="tile in player.discards">
                                             <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>

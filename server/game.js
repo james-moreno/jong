@@ -25,9 +25,9 @@ game.full = false;
 var count = 0;
 
 //Game Joining and Starting Functions
-game.addPlayer = function(socket){
+game.addPlayer = function(socket, username){
     if(!game.full){
-        game.players[count] = new Player(socket);
+        game.players[count] = new Player(socket, username);
         game.players[count].position = count;
         game.gameData.players[count] = {};
         game.gameData.players[count].ready = false;
@@ -155,14 +155,24 @@ game.otherActionsExist = function(){
 };
 
 game.startGame = function(timerEmit){
-    if(readyCheck() && !game.started){
-        game.wall = new Wall();
-        game.wall.shuffle();
-        dealTiles();
-        game.turnChanger();
-        game.gameData.started = true;
-    }
+  if(readyCheck() && !game.started){
+    clearHands();
+    game.wall = new Wall();
+    game.wall.shuffle();
+    dealTiles();
+    game.turnChanger();
+    game.gameData.started = true;
+  }
 };
+
+function clearHands(){
+  for(var player in game.players){
+    game.players[player].hand = [];
+    game.players[player].discards = [];
+    game.players[player].played = [];
+
+  }
+}
 
 game.drawTile = function(){
     var tile = game.wall.draw();
@@ -198,7 +208,7 @@ function grabPlayersHands(){
             game.gameData.players[idx].hand = playerHiddenHand(game.players[idx].hand.length);
             game.gameData.players[idx].discards = game.players[idx].discards;
             game.gameData.players[idx].played = game.players[idx].played;
-            game.gameData.players[idx].name = game.players[idx].name;
+            game.gameData.players[idx].username = game.players[idx].username;
 
         }
     }

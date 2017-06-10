@@ -1,8 +1,9 @@
 
 module.exports = Player;
 
-function Player(name){
-    this.name = name;
+function Player(id, username){
+    this.id = id;
+    this.username = username;
     this.hand = [];
     this.discards = [];
     this.played = [];

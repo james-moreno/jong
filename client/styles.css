@@ -31,45 +31,126 @@ footer, header, hgroup, menu, nav, section {
 body {
     min-width: 1080px;
     line-height: 1;
-	background: #09492a;
+	background: #cef5d8;
 }
 div {
     display: inline-block;
     font-size: 0;
 }
+button {
+	color: #a7874c;
+	border-color: #a7874c;
+	background: #fbe5ac;
+	border-radius: 5px;
+	font-size: 24px;
+}
 #headContainer {
 	height: 100px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+#headBox {
+	min-width: 40%;
+	min-height: 100px;
+	background: #fbe5ac;
+	padding: 5px 60px 5px 60px;
+	border-top: 5px solid #a7874c;
+	border-left: 5px solid #a7874c;
+	border-bottom: 5px solid #604d2b;
+	border-right: 5px solid #604d2b;
+	border-radius: 10px;
+}
+#nameBox {
+	display: inline-block;
+	float: right;
+}
+#nameBox p {
+	font-size: 24px;
 }
 #title {
+	display: inline-block;
+	float: left;
+	margin-right: 10px;
     font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
-    font-size: 40px;
+    font-size: 80px;
     font-weight: 900;
-    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-fill-color: #ffefeb; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-color: #836a3c;
+
+}
+#logInBackground {
+	width: 100%;
+	height: 100vh;
+	background: rgba(196, 172, 120, 0.8);
+	left: 0;
+	position: absolute;
+}
+#logInBox {
+	font-size: 16px;
+	background: #cef5d8;
+	padding: 30px 5px 30px 5px;
+	border-top: 5px solid #a7874c;
+	border-left: 5px solid #a7874c;
+	border-bottom: 5px solid #604d2b;
+	border-right: 5px solid #604d2b;
+	border-radius: 10px;
+	position: absolute;
+  width: 300px;
+  min-height: 100px;
+  z-index: 15;
+  top: 30%;
+  left: 50%;
+  margin: -50px 0 0 -150px;
+}
+#logInBox h1 {
+	font-size: 40px;
+}
+#loginForm {
+	margin-top: 10px;
+	margin-bottom: 10px;
+
+}
+#loginForm input {
+	font-size: 20px;
+	color: #a7874c;
+}
+#logInButton {
+	padding: 2px 8px 2px 8px;
+	font-weight: 600;
 }
 #winnerBox {
 	width: 100%;
-	height: 50%;
+	height: 30%;
 	left: 0;
 	top: 25%;
-	background: black;
+	background: #8aed99;
+	border-top: 5px solid #5bd06d;
+	border-bottom: 5px solid #5bd06d;
 	position: absolute;
 }
 #winnerText {
-	margin-top: 10%;
-	font-size: 70px;
-	color: white;
+	margin-top: 30px;
+	font-size: 80px;
+	font-family: 'Oswald', sans-serif;
+	-webkit-text-fill-color: #ffefeb; /* Will override color (regardless of order) */
+	-webkit-text-stroke-width: 2px;
+	-webkit-text-stroke-color: #836a3c;
+}
+#winnerBox button {
+	margin-top: 30px;
+	padding: 5px 15px 5px 15px;
 }
 #playArea {
-    width: 1202px;
-    height: 652px;
-    margin: auto;
-	-moz-box-shadow: 0 0 50px black;
-	-webkit-box-shadow: 0 0 50px black;
-	box-shadow: 0 0 50px black;
-	background: url('/imgs/felt.jpg');
-	border: 3px solid #d6c17e;
+  width: 1202px;
+  height: 652px;
+  margin: auto;
+	background: #fbe5ac;
+	border-top: 8px solid #a7874c;
+	border-left: 8px solid #a7874c;
+	border-bottom: 8px solid #604d2b;
+	border-right: 8px solid #604d2b;
+	border-radius: 10px;
 }
 #othersArea {
     height: 580px;
@@ -204,9 +285,12 @@ div {
     float: right;
 }
 #yourTurnText {
-    font-size: 18px;
-    font-weight: 600;
-    font-family: sans-serif;
+	font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+	font-size: 40px;
+	font-weight: 900;
+	-webkit-text-fill-color: #ffefeb; /* Will override color (regardless of order) */
+	-webkit-text-stroke-width: 2px;
+	-webkit-text-stroke-color: #836a3c;
 }
 #eatTiles {
 	position: relative;
@@ -217,13 +301,13 @@ div {
 	margin-right: 15px;
 }
 .handTile, .discardTile, .topHandTile, .sideHandTile {
-	background: #008c64;
+	background: #c1a253;
     border-radius: 5px;
     overflow: hidden;
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 1px solid #ffefc9;
+    border-left: 1px solid #ffefc9;
+    border-right: 1px solid #7a6633;
+    border-bottom: 1px solid #7a6633;
 }
 .handTile {
     width: 52.5px;
@@ -248,18 +332,27 @@ div {
     margin-left: 30px;
 }
 .gameText {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 600;
-    font-family: sans-serif;
-    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    font-family: 'Oswald', sans-serif;
+    -webkit-text-fill-color: #ffefeb; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black
+    -webkit-text-stroke-color: #836a3c;
+		padding-top: 2px;
+		padding-bottom: 2px
+
+}
+.gameText a {
+	-webkit-text-fill-color: #ffefeb; /* Will override color (regardless of order) */
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: #836a3c;
 }
 .startButton {
     min-width: 50px;
-    height: 20px;
+    min-height: 20px;
     font-weight: 600;
     font-family: sans-serif;
     padding-left: 10px;
     padding-right: 10px;
+		margin-top: 5px;
 }
