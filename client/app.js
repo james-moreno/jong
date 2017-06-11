@@ -38,10 +38,10 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
         $scope.started = gameData.started;
         $scope.gameData = gameData;
         //if statement for no discards on first player's turn
-        $scope.rightPlayerDiscards = gameData.players[($scope.player.position+1)%4].discards;
+        $scope.rightPlayerDiscards = gameData.players[($scope.player.position+1)%4].discards.reverse();
         $scope.rightPlayerPlayed = gameData.players[($scope.player.position+1)%4].played;
         $scope.rightPlayerHand = gameData.players[($scope.player.position+1)%4].hand;
-        $scope.topPlayerDiscards = gameData.players[($scope.player.position+2)%4].discards;
+        $scope.topPlayerDiscards = gameData.players[($scope.player.position+2)%4].discards.reverse();
         $scope.topPlayerPlayed = gameData.players[($scope.player.position+2)%4].played;
         $scope.topPlayerHand = gameData.players[($scope.player.position+2)%4].hand;
         $scope.leftPlayerDiscards = gameData.players[($scope.player.position+3)%4].discards;

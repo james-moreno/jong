@@ -40,7 +40,7 @@ div {
 button {
 	color: #a7874c;
 	border-color: #a7874c;
-	background: #fbe5ac;
+	background: white;
 	border-radius: 5px;
 	font-size: 24px;
 }
@@ -180,15 +180,24 @@ button {
     width: 990px;
     height: 55px
 }
+#topDiscards {
+	text-align: right;
+}
 #leftDiscards {
     float: left;
+		writing-mode: vertical-rl;
 }
 #rightDiscards {
     float: right;
+		writing-mode: vertical-lr;
+		text-align: right;
 }
 #leftDiscards, #rightDiscards {
     width: 150px;
     height: 470px;
+}
+#leftDiscards, #playerDiscards {
+	text-align: left;
 }
 #discardsAndFlowers {
     width: 990px;
@@ -205,6 +214,22 @@ button {
 #topDiscards, #playerDiscards {
     width: 690px;
     height: 100px;
+}
+#topDiscards .discards .discardTile , #topPlayerHand .discardTile{
+	-webkit-transform: rotate(180deg);
+}
+.leftDiscards, .rightDiscards {
+	font-size: 0;
+	display: inline-block;
+	width: 40px;
+	height: 30px;
+}
+.leftDiscardTile, .rightDiscardTile {
+	width: 40px;
+	height: 30px;
+}
+.rightDiscardTile {
+	-webkit-transform: rotate(180deg);
 }
 #buttonBarContainer {
     display: block;
@@ -300,7 +325,7 @@ button {
 #playedTiles {
 	margin-right: 15px;
 }
-.handTile, .discardTile, .topHandTile, .sideHandTile {
+.handTile, .discardTile, .topHandTile, .sideHandTile, .leftDiscards, .rightDiscards{
 	background: #c1a253;
     border-radius: 5px;
     overflow: hidden;
@@ -314,8 +339,8 @@ button {
     height: 70px;
 }
 .discardTile {
-    width: 37.5px;
-    height: 50px;
+    width: 30px;
+    height: 40px;
 }
 .topHandTile {
 	width: 30px;

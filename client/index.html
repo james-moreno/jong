@@ -39,8 +39,8 @@
             <div id="othersArea">
                 <div id ="leftPlayerHand">
                     <div ng-repeat="runs in leftPlayerPlayed">
-                        <div ng-repeat="tile in runs">
-                            <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                        <div class="leftDiscards" ng-repeat="tile in runs">
+                            <img class="leftDiscardTile" ng-src="./imgs/r{{tile.value}}{{tile.suit}}.png"/>
                         </div>
                     </div>
                     <div ng-repeat="tile in leftPlayerHand">
@@ -64,8 +64,8 @@
                             </div>
                             <div id="discardsAndFlowers">
                                 <div id="leftDiscards">
-                                    <div class="discards" ng-repeat="tile in leftPlayerDiscards">
-                                        <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                                    <div class="leftDiscards" ng-repeat="tile in leftPlayerDiscards">
+                                        <img class="leftDiscardTile" ng-src="./imgs/r{{tile.value}}{{tile.suit}}.png"/>
                                     </div>
                                 </div>
                                 <div id="topFlowersDiscardsWall">
@@ -87,8 +87,8 @@
                                     </div>
                                 </div>
                                 <div id="rightDiscards">
-                                    <div class="discards" ng-repeat="tile in rightPlayerDiscards">
-                                        <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                                    <div class="rightDiscards" ng-repeat="tile in rightPlayerDiscards">
+                                        <img class="rightDiscardTile" ng-src="./imgs/r{{tile.value}}{{tile.suit}}.png"/>
                                     </div>
                                 </div>
                             </div>
@@ -130,8 +130,8 @@
                         <div class="sideHandTile"></div>
                     </div>
                     <div ng-repeat="runs in rightPlayerPlayed">
-                        <div ng-repeat="tile in runs">
-                            <img class="discardTile" ng-src="./imgs/{{tile.value}}{{tile.suit}}.png"/>
+                        <div class="rightDiscards" ng-repeat="tile in runs">
+                            <img class="rightDiscardTile" ng-src="./imgs/r{{tile.value}}{{tile.suit}}.png"/>
                         </div>
                     </div>
                 </div>
