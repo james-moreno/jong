@@ -7,6 +7,7 @@ app.factory('gameSocket', function (socketFactory){
     jongSocket.forward('timerUpdate');
     jongSocket.forward('winner');
     jongSocket.forward('draw');
+    jongSocket.forward('playerDisconnected');
     return jongSocket;
 });
 
@@ -75,6 +76,9 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
     });
     $scope.$on('socket:draw', function(event){
       $scope.draw = true;
+    });
+    $scope.$on('socket:playerDisconnected', function(event){
+      $scope.playerDisconnected = true;
     });
     $scope.ready = function(){
       if($scope.loggedIn){

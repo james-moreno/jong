@@ -22,22 +22,43 @@ game.gameData = {
   }
 };
 game.full = false;
-var count = 0;
+// var count = 0;
+var slots = [3, 2, 1, 0];
 
 //Game Joining and Starting Functions
 game.addPlayer = function(socket, username){
     if(!game.full){
-        game.players[count] = new Player(socket, username);
-        game.players[count].position = count;
-        game.gameData.players[count] = {};
-        game.gameData.players[count].ready = false;
-        count++;
+      var position = assignPlayerPosition();
+      game.players[position] = new Player(socket, username);
+      game.players[position].position = position;
+      game.gameData.players[position] = {};
+      game.gameData.players[position].ready = false;
+      // count++;
     }
     checkFull();
 };
+
+function assignPlayerPosition(){
+  if(slots.length > 0){
+    return slots.pop();
+  }
+  else {
+    return false;
+  }
+}
+function replacePosition(position){
+  slots.push(position);
+}
+
 game.removePlayer = function(socket){
-    delete game.players[socket];
-    count --;
+  for(var player in game.players){
+    if(game.players[player].id == socket){
+      console.log('removing player '+player);
+      replacePosition(player);
+      delete game.players[player];
+    }
+  }
+  checkFull();
 };
 
 game.readyUp = function(player){
@@ -110,11 +131,15 @@ function testDealTiles(wall){
 // Test drawing for test purposes
 
 function checkFull(){
-    var playerCount = Object.keys(game.players).length;
-    if(playerCount == 4){
-        game.full = true;
-    }
+  var playerCount = Object.keys(game.players).length;
+  if(playerCount == 4){
+    game.full = true;
+  }
+  else {
+    game.full = false;
+  }
 }
+
 game.clearAllActions = function(){
     console.log('clearing all players actions');
     for (var i = 0; i < 4; i++) {
@@ -146,12 +171,12 @@ game.clearActions = function(player, type){
 };
 
 game.otherActionsExist = function(){
-    for(var player in game.players){
-        if(game.players[player].hasAction){
-            return true;
-        }
+  for(var player in game.players){
+    if(game.players[player].hasAction){
+      return true;
     }
-    return false;
+  }
+  return false;
 };
 
 game.startGame = function(timerEmit){

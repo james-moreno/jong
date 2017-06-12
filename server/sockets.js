@@ -237,10 +237,12 @@ var webSocket = function(client){
 
     var io = require('socket.io').listen(client);
     io.sockets.on('connection', function (socket) {
+
         socket.on('login', function(user) {
           console.log(socket.id);
           console.log(user.username);
           game.addPlayer(socket.id, user.username);
+          console.log(game.players);
           gamePlayerDataUpdate();
         });
         socket.on('ready', function(playerData){
@@ -275,8 +277,12 @@ var webSocket = function(client){
             turnController('win', winData);
         });
         socket.on('disconnect', function(){
-            console.log('client disconnected');
+            console.log('client '+socket.id+' disconnected');
             game.removePlayer(socket.id);
+            console.log(game.players);
+            // add blank player data to emit to clear the DOM of game board
+            // also kill the timer so that the game doesn't break!
+            io.sockets.emit('playerDisconnected');
         });
     });
     return io;
