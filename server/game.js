@@ -55,6 +55,7 @@ game.removePlayer = function(socket){
     if(game.players[player].id == socket){
       console.log('removing player '+player);
       replacePosition(player);
+      game.unReady(player);
       delete game.players[player];
     }
   }
@@ -132,6 +133,7 @@ function testDealTiles(wall){
 
 function checkFull(){
   var playerCount = Object.keys(game.players).length;
+  console.log('Game has '+playerCount+' players.');
   if(playerCount == 4){
     game.full = true;
   }
@@ -142,8 +144,8 @@ function checkFull(){
 
 game.clearAllActions = function(){
     console.log('clearing all players actions');
-    for (var i = 0; i < 4; i++) {
-        game.clearActions(i, null);
+    for (var player in game.players) {
+        game.clearActions(player, null);
     }
 };
 
@@ -185,8 +187,20 @@ game.startGame = function(timerEmit){
     game.wall = new Wall();
     game.wall.shuffle();
     dealTiles();
+    game.gameData.started = false;
     game.turnChanger();
     game.gameData.started = true;
+  }
+};
+
+game.cancelGame = function(){
+  clearHands();
+  game.clearAllActions();
+  game.gameData.started = false;
+  for(var player in game.gameData.players){
+    game.gameData.players[player].hand = [];
+    game.gameData.players[player].discards = [];
+    game.gameData.players[player].played = [];
   }
 };
 

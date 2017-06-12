@@ -80,7 +80,7 @@
                                     </div>
                                     <div id="wall">
                                       <p id="yourTurnText" ng-show="player.isTurn">YOUR TURN!</p>
-                                      <p ng-show="playerDisconnected && started" class="gameText">Player Disconnected. Game Resetting. Sorry!</p>
+                                      <p ng-show="playerDisconnected && !started" class="gameText">Player Disconnected. Game Resetting. Sorry!</p>
                                     </div>
                                     <div id="playerDiscards">
                                         <div class="discards" ng-repeat="tile in player.discards">

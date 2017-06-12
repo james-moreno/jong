@@ -78,7 +78,9 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
       $scope.draw = true;
     });
     $scope.$on('socket:playerDisconnected', function(event){
+      $scope.player.isTurn = false;
       $scope.playerDisconnected = true;
+      console.log($scope.player.isTurn);
     });
     $scope.ready = function(){
       if($scope.loggedIn){

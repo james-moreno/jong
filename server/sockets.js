@@ -16,6 +16,7 @@ var webSocket = function(client){
             io.to(game.players[player].id).emit('playerDataUpdate', game.players[player]);
         }
     }
+    //Emits other player's data only, to keep it hidden.
     function gameDataUpdate(){
         game.grabGameData();
         io.sockets.emit('gameDataUpdate', game.gameData);
@@ -23,6 +24,7 @@ var webSocket = function(client){
     function timerUpdate(time){
         io.sockets.emit('timerUpdate', time);
     }
+    //Emits player's data.ß
     function gamePlayerDataUpdate(){
         playerDataUpdate();
         gameDataUpdate();
@@ -280,6 +282,9 @@ var webSocket = function(client){
             console.log('client '+socket.id+' disconnected');
             game.removePlayer(socket.id);
             console.log(game.players);
+            game.cancelGame();
+            killTimer();
+            gamePlayerDataUpdate();
             // add blank player data to emit to clear the DOM of game board
             // also kill the timer so that the game doesn't break!
             io.sockets.emit('playerDisconnected');
