@@ -6,6 +6,7 @@ app.factory('gameSocket', function (socketFactory){
     jongSocket.forward('gameDataUpdate');
     jongSocket.forward('timerUpdate');
     jongSocket.forward('winner');
+    jongSocket.forward('draw');
     return jongSocket;
 });
 
@@ -33,6 +34,7 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
     $scope.$on('socket:gameDataUpdate', function(event, gameData){
         console.log(gameData);
         $scope.winner = null;
+        $scope.draw = null;
         $scope.turn = gameData.turn;
         $scope.readyPlayers = readyPlayers(gameData.players);
         $scope.started = gameData.started;
@@ -69,6 +71,10 @@ app.controller('gameController', ['$scope', '$cookies', 'gameSocket',  function(
     $scope.$on('socket:winner', function(event, winner){
         console.log(winner+" is the winner!");
         $scope.winner = winner;
+        $scope.draw = false;
+    });
+    $scope.$on('socket:draw', function(event){
+      $scope.draw = true;
     });
     $scope.ready = function(){
       if($scope.loggedIn){

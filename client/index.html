@@ -17,9 +17,10 @@
             <p class="gameText"> Welcome to Mahjong! Put in a username to play. If you don't know how then check out this <a href="http://mahjong.wikidot.com/basic-rules">beginner's guide.</a></p>
           </div>
         </div>
-        <div ng-show="winner" id='winnerBox'>
-            <h1 id="winnerText">{{winner}} is the winner!</h1>
-            <button ng-click="restart()">Play Again</button>
+        <div ng-show="winner || draw" id='winnerBox'>
+          <h1 ng-show="draw" class="winnerText">The game is a draw!</h1>
+          <h1 ng-hide="draw" class="winnerText">{{winner}} is the winner!</h1>
+          <button ng-click="restart()">Play Again</button>
         </div>
         <div id="headContainer">
           <div id="headBox">

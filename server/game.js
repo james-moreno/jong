@@ -13,13 +13,13 @@ var DiscardKongWall = require('./discardKongWall.js');
 
 game.players = {};
 game.gameData = {
-    started: false,
-    players: {
-        0: {},
-        1: {},
-        2: {},
-        3: {}
-    }
+  started: false,
+  players: {
+    0: {},
+    1: {},
+    2: {},
+    3: {}
+  }
 };
 game.full = false;
 var count = 0;

@@ -34,6 +34,11 @@ var webSocket = function(client){
         io.to(game.players[currentPlayer].id).emit('drawAction', actionData);
     }
     function turnController(type, data){
+      console.log(game.wall.wall.length);
+      if(game.wall.wall.length === 0) {
+        io.sockets.emit('draw');
+        return;
+      }
         if(type == 'draw'){
             var drawCheck = game.drawTile();
             gamePlayerDataUpdate();
